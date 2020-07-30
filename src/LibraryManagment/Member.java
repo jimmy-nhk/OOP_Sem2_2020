@@ -41,9 +41,13 @@ public class Member {
 
         // Add the expired date
         Scanner scanner = new Scanner(date);
+        System.out.println("Enter the date expired: ");
         expiredDate.set(Calendar.DAY_OF_MONTH,scanner.nextInt());
-        expiredDate.set(Calendar.DAY_OF_MONTH,scanner.nextInt());
+        System.out.println("Enter the month expired");
+        expiredDate.set(Calendar.MONTH,scanner.nextInt());
+        System.out.println("Enter the year expired");
         expiredDate.set(Calendar.YEAR,scanner.nextInt());
+
     }
 
     // Methods:
@@ -79,5 +83,13 @@ public class Member {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return fullName + "\n" + id + "\n" + phone +
+                "\n" + mail + "\n" + address + "\n"
+                + expiredDate.toString() + "\n" + status +
+                "\nLate Fee: " + lateFee + "\n";
     }
 }

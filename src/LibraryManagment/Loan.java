@@ -23,6 +23,7 @@ public class Loan {
     private Calendar returnedDate;
     private Item item;
     private Member member;
+    Scanner scanner = new Scanner(System.in);
 
     //Constructors of Loan class
     public Loan(){}
@@ -35,8 +36,7 @@ public class Loan {
 
     // Methods:
 
-    public void setReturnedDate() {
-        Scanner scanner = new Scanner(System.in);
+    public void setDate(Calendar date) {
 
         // Enter the returned date
         System.out.println("Enter the year: ");
@@ -44,9 +44,17 @@ public class Loan {
         System.out.println("Enter the month: ");
         int month = scanner.nextInt();
         System.out.println("Enter the date: ");
-        int date = scanner.nextInt();
+        int day = scanner.nextInt();
 
-        this.returnedDate.set(year,month,date);
+        date.set(year,month,day);
+    }
+
+    public void setReturnedDate() {
+        setDate(returnedDate);
+    }
+
+    public void setIssuedDate() {
+        setDate(issuedDate);
     }
 
     public double calculateFee(){

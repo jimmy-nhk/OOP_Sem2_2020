@@ -14,12 +14,19 @@ public class DVD extends Item {
         return null;
     }
 
-    public DVD(String title , String publication, String year , String language,String status,String copy, String author ) {
+    public DVD(String title , String author ,String publication, String year , String language,String status,String copy ) {
         super(title ,  publication,  year ,  language, status, copy);
         numberOfDVDCreated ++;
         this.id = numberOfDVDCreated;
         this.author = author;
     }
 
+    // Set Methods:
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 }

@@ -47,6 +47,7 @@ public class Book extends Item{
         }
     }
 
+
     // The method to check the validation of ISBN
     static boolean verifyISBN(String isbn){
         if (( verifyInt(isbn) && isbn.length() == 10 ) || (verifyInt(isbn) && isbn.length() == 13 ))
@@ -55,4 +56,26 @@ public class Book extends Item{
             return false;
     }
 
+    // Methods:
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    public void setIsbn(String isbn) {
+        if (verifyISBN(isbn)){
+            this.isbn = isbn;
+        } else {
+            System.out.println("Enter again the isbn in the correct format: ");
+            try {
+                Scanner scanner = new Scanner(System.in);
+                this.isbn = scanner.next();
+            } catch (Exception e){
+                this.isbn = "";
+            }
+        }
+    }
 }

@@ -77,4 +77,27 @@ public abstract class Item {
         }
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPublication(String publication) {
+        this.publication = publication;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setNumberOfCopies(int numberOfCopies) {
+        this.numberOfCopies = numberOfCopies;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 }

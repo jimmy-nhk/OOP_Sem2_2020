@@ -35,4 +35,8 @@ public class Journal extends Item {
         else
             return false;
     }
+
+    public void setIssn(String issn) {
+        this.issn = issn;
+    }
 }
