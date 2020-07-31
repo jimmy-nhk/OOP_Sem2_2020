@@ -9,6 +9,62 @@ public class MemberList {
     
     // Methods:
     public void searchMember (){
+        ArrayList<Member> members = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the keyword you want to search: ");
+        String input = scanner.nextLine(); // Enter the keyword want to search
+        String pattern = ".*"+input+".*"; // Making the pattern for searching
+
+        boolean checkKeyWordExists = false;
+        for (int i = 0 ; i < memberList.size(); i ++){
+            if (memberList.get(i).toString().matches(pattern)){
+                members.add(memberList.get(i));
+                checkKeyWordExists = true;
+            }
+        }
+        // Call a method helping us display a list of member in the library
+        if (checkKeyWordExists){
+            displayMember(members);
+        } else
+            displayMember(memberList);
+
+        scanner.nextLine(); // Helps stop a program a little bit for user to see
+    }
+
+    // Display member
+    public void displayMember( ArrayList<Member> members){
+        Scanner scanner = new Scanner(System.in);
+        int size = (int) Math.ceil(members.size() / 10.0);
+        Member [][] arr = new Member[size][10];
+        int tmp = 0;
+        boolean check = true;
+        while (check){
+            try {
+                for (int j = 0 ; j < 10 ; j ++){
+                    System.out.println(arr[tmp][j].getString());
+                }
+                System.out.println("Enter the function:");
+                System.out.println(" n is the next page \np is the " +
+                        "previous page\nq for quit:");
+                String input = scanner.nextLine().toLowerCase();
+                switch (input){
+                    case "n":
+                        if (tmp < size - 1)
+                            tmp++;
+                        break;
+                    case "p":
+                        if (tmp > 0)
+                            tmp--;
+                        break;
+                    case "q":
+                        check = false;
+                        break;
+                }
+            } catch (Exception e){
+                check = false;
+            }
+        }
     }
 
     public void addNewMember(){
@@ -35,7 +91,7 @@ public class MemberList {
         String mail = scanner.nextLine();
         System.out.println("Enter the address:");
         String address = scanner.nextLine();
-        System.out.println("Enter the expired date in integer format: \neg: 1 5 2020 which is May 1st 2020");
+        System.out.println("Enter the expired date in integer format: \neg: 05-11-2020");
         String date = scanner.nextLine();
         System.out.println("Enter the status ( active or expired): ");
         String status = scanner.nextLine();
@@ -92,7 +148,7 @@ public class MemberList {
                             memberList.get(i).setStatus(scanner.nextLine());
                             break;
                         case "DATE":
-                            System.out.println("What is the new expired date?\neg: 1 5 2020 which is May 1st 2020");
+                            System.out.println("What is the new expired date?\neg: 05-11-2020");
                             memberList.get(i).setExpiredDate(scanner.nextLine());
                             break;
                         case "LATEFEE":
@@ -102,7 +158,6 @@ public class MemberList {
                             break;
                         case "0":
                             check = false;
-                            scanner.nextLine();
                             break;
                         default:
                             System.out.println("Cannot find the matched data field");
@@ -115,7 +170,6 @@ public class MemberList {
         }
     }
 
-    public void displayMember(){}
 
     public void borrowItems (){}
 

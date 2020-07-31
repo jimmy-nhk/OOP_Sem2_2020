@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static LibraryManagment.Book.verifyISBN;
-import static LibraryManagment.Item.verifyInt;
 import static LibraryManagment.Journal.verifyISSN;
 
 public class ItemList {
@@ -13,7 +12,64 @@ public class ItemList {
 
     //Methods:
     public void searchItem (){
+        ArrayList<Item> items = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the keyword you want to search: ");
+        String input = scanner.nextLine(); // Enter the keyword want to search
+        String pattern = ".*"+input+".*"; // Making the pattern for searching
+
+        boolean checkKeyWordExists = false;
+        for (int i = 0 ; i < itemList.size(); i ++){
+            if (itemList.get(i).toString().matches(pattern)){
+                items.add(itemList.get(i));
+                checkKeyWordExists = true;
+            }
+        }
+        // Call a method helping us display a list of member in the library
+        if (checkKeyWordExists){
+            displayItem(items);
+        } else
+            displayItem(itemList);
+
+        scanner.nextLine(); // Helps stop a program a little bit for user to see
+
     }
+
+    public void displayItem(ArrayList<Item> items){
+        Scanner scanner = new Scanner(System.in);
+        int size = (int) Math.ceil(items.size() / 10.0);
+        Item [][] arr = new Item[size][10];
+        int tmpt = 0;
+        boolean check = true;
+        while (check){
+            try {
+                for (int j = 0 ; j < 10 ; j ++){
+                    System.out.println(arr[tmpt][j].getString());
+                }
+                System.out.println("Enter the function:");
+                System.out.println(" n is the next page \np is the " +
+                        "previous page\nq for quit:");
+                String input = scanner.nextLine().toLowerCase();
+                switch (input){
+                    case "n":
+                        if (tmpt < size - 1)
+                            tmpt++;
+                        break;
+                    case "p":
+                        if (tmpt > 0)
+                            tmpt--;
+                        break;
+                    case "q":
+                        check = false;
+                        break;
+                }
+            } catch (Exception e){
+                check = false;
+            }
+        }
+    }
+
 
     public void addNewItem(){
         System.out.println("What is the item ?");
@@ -214,7 +270,6 @@ public class ItemList {
                                 break;
                             case "0":
                                 check = false;
-                                scanner.nextLine();
                                 break;
                             default:
                                 System.out.println("No data field like that in this Book");
@@ -225,7 +280,6 @@ public class ItemList {
         }
     }
 
-    public void displayItem(){}
 
     // Methods import items:
     public void newJournal(){

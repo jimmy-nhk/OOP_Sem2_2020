@@ -76,7 +76,18 @@ public abstract class Item {
 
     }
 
-    public abstract String toString();
+    @Override
+    public String toString() {
+        return "Item{" +
+                "title='" + title + '\'' +
+                ", publication='" + publication + '\'' +
+                ", year=" + year +
+                ", language='" + language + '\'' +
+                ", status='" + status + '\'' +
+                ", numberOfCopies=" + numberOfCopies +
+                ", numberOfCopiesOnLoan=" + numberOfCopiesOnLoan +
+                '}';
+    }
 
     // Method to verify the string in the correct format.
     public static boolean verifyInt(String integer) {
@@ -86,6 +97,36 @@ public abstract class Item {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    // Get and Set methods:
+
+    public String getPublication() {
+        return publication;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getNumberOfCopies() {
+        return numberOfCopies;
+    }
+
+    public int getNumberOfCopiesOnLoan() {
+        return numberOfCopiesOnLoan;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
@@ -111,4 +152,6 @@ public abstract class Item {
     public void setYear(int year) {
         this.year = year;
     }
+
+    public abstract String getString();
 }

@@ -11,30 +11,20 @@ public class Journal extends Item {
     public Journal(String title , String publication, String year ,
                    String language,String status,String copy, String issn ) {
         super(title ,  publication,  year ,  language, status, copy);
-
-        //Check the constraint of ISSN
-//        do {
-//            if (verifyISSN(issn)){
-//                this.issn = issn;
-//                break;
-//            } else {
-//                // Re-enter the issn until it is in the right format
-//                System.out.println("Enter again the issn in the correct format: ");
-//                Scanner scanner = new Scanner(System.in);
-//                this.issn = scanner.nextLine().trim();
-//                if (verifyISSN(this.issn))
-//                    break;
-//            }
-//        } while (true);
         this.issn = issn;
-
     }
 
     @Override
     public String toString() {
-        return null;
+        return "Journal{" +
+                "issn='" + issn + '\'' +
+                '}';
     }
 
+    @Override
+    public String getString() {
+        return "String" ;
+    }
 
 
     public String getIssn() {

@@ -8,60 +8,61 @@
   Created  date: 29/07/2020
   Last modified:
   Acknowledgement:
-  https://stackoverflow.com/questions/19462912/how-to-get-number-of-days-between-two-calendar-instance
 */
 
 package LibraryManagment;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class Loan {
     // Properties of Loan class
-    private Calendar issuedDate;
-    private Calendar returnedDate;
+    private LocalDate issuedDate;
+    private LocalDate returnedDate;
     private Item item;
     Scanner scanner = new Scanner(System.in);
 
     //Constructors of Loan class
     public Loan(){}
     public Loan(Item item){
-        issuedDate = Calendar.getInstance(); // This method returns the current date
+        issuedDate = LocalDate.now(); // This method returns the current date
         this.item = item;
-        this.returnedDate.set(0,1,0);
+        returnedDate = LocalDate.now(); // Temporarily set returned Date to now
     }
 
     // Methods:
 
-    public void setDate(Calendar date) {
 
-        // Enter the returned date
-        System.out.println("Enter the year: ");
-        int year = scanner.nextInt();
-        System.out.println("Enter the month: ");
-        int month = scanner.nextInt();
-        System.out.println("Enter the date: ");
-        int day = scanner.nextInt();
-
-        date.set(year,month,day);
+    public void setIssuedDate(LocalDate issuedDate) {
+        this.issuedDate = issuedDate;
     }
 
     public void setReturnedDate() {
-        setDate(returnedDate);
+        try {
+            System.out.println("Enter the returned date following the format dd-MM-yyyy: ");
+            String date = scanner.nextLine();
+            LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            this.returnedDate = localDate;
+        } catch (Exception e){
+            System.out.println("Failure to set returned date because the input format is incorrect");
+        }
+
     }
 
-    public void setIssuedDate() {
-        setDate(issuedDate);
+    /** This Method calculates the Fee */
+    public double calculateFee(){
+        double lateFee = 0 ;
+        final double FEECHARGED = 0.1;
+        long daysBetween = ChronoUnit.DAYS.between(returnedDate,issuedDate);
+        if (item instanceof Book){ // if it is a book , must return before 15 days
+            lateFee = daysBetween <= 14 ? FEECHARGED * 0 : FEECHARGED * (daysBetween - 14);
+        } else if (item instanceof DVD || item instanceof Journal){ // if it is either a DVD or a Journal, must return before 8 days
+            lateFee = daysBetween <= 7 ? FEECHARGED * 0 : FEECHARGED * (daysBetween - 7);
+        }
+        return lateFee;
     }
 
-    /** This Method has not done yet */
-    public void calculateFee(){
-    }
 
-    public boolean checkIfOnTime (){
-        // This is where it is a reference from StackOverFlow
-        long daysBetween = ChronoUnit.DAYS.between(returnedDate.toInstant(), issuedDate.toInstant());
-        return daysBetween <= 14  ;
-    }
 }

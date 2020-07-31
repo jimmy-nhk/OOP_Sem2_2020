@@ -12,8 +12,9 @@
 
 package LibraryManagment;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class Member {
@@ -23,7 +24,7 @@ public class Member {
     private String phone;
     private String mail;
     private String address;
-    private Calendar expiredDate ;
+    private LocalDate expiredDate ;
     private String status;
     private double lateFee;
     private ArrayList<Loan> loans;
@@ -87,21 +88,21 @@ public class Member {
 
     public void setExpiredDate(String date) {
         try {
-            // Add the expired date
-            Scanner scanner1 = new Scanner(date);
-            int day = scanner1.nextInt();
-            System.out.println("Enter the date expired: ");
-            expiredDate.set(Calendar.DAY_OF_MONTH,day);
-            System.out.println("Enter the month expired");
-            expiredDate.set(Calendar.MONTH,scanner1.nextInt());
-            System.out.println("Enter the year expired");
-            expiredDate.set(Calendar.YEAR,scanner1.nextInt());
+            LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         } catch (Exception e){
-            System.out.println("Enter the wrong format. Should be integer format\nThe expired date has not been entered");
+            System.out.println("Failure to input the expired date. Please follow the instructed format\nThe expired date has not yet been updated");
         }
     }
 
     public void setLateFee(double lateFee) {
+        this.lateFee = lateFee;
+    }
+
+    public void addLateFee (){
+        double lateFee = 0 ;
+        for (int i = 0 ; i < loans.size(); i++){
+            lateFee += loans.get(i).calculateFee();
+        }
         this.lateFee += lateFee;
     }
 
@@ -118,12 +119,17 @@ public class Member {
 
         }
     }
-
-    @Override
-    public String toString() {
+    // This method to display the information to the console
+    public String getString(){
         return fullName + "\n" + id + "\n" + phone +
                 "\n" + mail + "\n" + address + "\n"
                 + expiredDate.toString() + "\n" + status +
                 "\nLate Fee: " + lateFee + "\n";
+    }
+    @Override
+    public String toString() {
+
+        return fullName + id + phone + mail + address + expiredDate.toString() + status + lateFee;
+
     }
 }

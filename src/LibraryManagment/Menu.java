@@ -27,6 +27,7 @@ public class Menu {
 
                 switch (input){
                     case 1:
+
                     case 2:
                         itemList.addNewItem();
                         break;
@@ -34,6 +35,8 @@ public class Menu {
                         itemList.updateItemInfo();
                         break;
                     case 4:
+                        memberList.searchMember();
+                        break;
                     case 5:
                         memberList.addNewMember();
                         break;
