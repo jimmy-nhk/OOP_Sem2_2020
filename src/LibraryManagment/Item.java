@@ -19,7 +19,7 @@ public abstract class Item {
     private String publication;
     private int year;
     private String language;
-    private boolean status; // If available, the status is true and if it is not, it will be false
+    private String status;
     private int numberOfCopies;
 
     // Constructors of Collection class
@@ -38,18 +38,27 @@ public abstract class Item {
             System.out.println("Enter again the year in the correct format: ");
             try {
                 this.year = scanner.nextInt();
+                scanner.nextLine(); // This helps for the next scan
             } catch (Exception e){
                 this.year = 0;
             }
         }
 
         // Check the right form for the status
-        try {
-            this.status = Boolean.parseBoolean(status);
-        } catch (Exception e){
-            System.out.println("Enter again the status in the correct format (True/ False):");
-            this.status = scanner.nextBoolean();
+        boolean check = true;
+        while (check) {
+            if (status.toUpperCase().equals("ON LOAN")){
+                this.status = "On Loan";
+                check = false;
+            } else if (status.toUpperCase().equals("AVAILABLE")){
+                this.status = "Available";
+                check = false;
+            } else {
+                System.out.println("Enter again the status in the correct format ( Available or On Loan ): ");
+                status = scanner.nextLine();
+            }
         }
+
 
         // Check the right format of numberOfCopies
         if (verifyInt(numberOfCopies)){
@@ -58,8 +67,9 @@ public abstract class Item {
             System.out.println("Enter again the number of copies in the correct format: ");
             try {
                 this.numberOfCopies = scanner.nextInt();
+                scanner.nextLine(); // This helps for the next scan
             } catch (Exception e){
-                this.numberOfCopies = 0;
+                this.numberOfCopies = 1;
             }
         }
 
@@ -85,7 +95,7 @@ public abstract class Item {
         this.publication = publication;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

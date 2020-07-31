@@ -34,17 +34,20 @@ public class Book extends Item{
         this.edition = edition;
 
         // Check the constraints of ISBN:
-        if (verifyISBN(isbn)){
-            this.isbn = isbn;
-        } else {
-            System.out.println("Enter again the isbn in the correct format: ");
-            try {
+        do {
+            if (verifyISBN(isbn)){
+                this.isbn = isbn;
+                break;
+            } else {
+                // Re-enter the ISBN until it is in the right format
+                System.out.println("Enter again the isbn in the correct format: ");
                 Scanner scanner = new Scanner(System.in);
-                this.isbn = scanner.next();
-            } catch (Exception e){
-                this.isbn = "";
+                this.isbn = scanner.nextLine().trim();
+                if (verifyISBN(this.isbn))
+                    break;
             }
-        }
+        } while (true);
+
     }
 
 
@@ -57,6 +60,12 @@ public class Book extends Item{
     }
 
     // Methods:
+
+
+    public String getIsbn() {
+        return isbn;
+    }
+
     public void setAuthor(String author) {
         this.author = author;
     }
