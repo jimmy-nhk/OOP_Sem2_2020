@@ -26,7 +26,7 @@ public class Member {
     private Calendar expiredDate ;
     private boolean status; // True is still available , False is expired
     private double lateFee;
-    private ArrayList<Loan> loanList;
+    private ArrayList<Loan> loans;
 
     //Constructors of Member class
     public Member(){}
@@ -52,6 +52,14 @@ public class Member {
 
     // Methods:
     // Set methods (mutators):
+
+    public void addLoans (Loan loan) {
+        if (loans.size() <= 5){
+            loans.add(loan);
+            System.out.println("Successfully added");
+        } else
+            System.out.println("One member can only have 5 loans at the same time");
+    }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;

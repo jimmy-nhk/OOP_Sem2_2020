@@ -22,16 +22,14 @@ public class Loan {
     private Calendar issuedDate;
     private Calendar returnedDate;
     private Item item;
-    private Member member;
     Scanner scanner = new Scanner(System.in);
 
     //Constructors of Loan class
     public Loan(){}
-    public Loan(Item item, Member member){
+    public Loan(Item item){
         issuedDate = Calendar.getInstance(); // This method returns the current date
         this.item = item;
-        this.member = member;
-        this.returnedDate.set(0,0,0);
+        this.returnedDate.set(0,1,0);
     }
 
     // Methods:
@@ -57,10 +55,13 @@ public class Loan {
         setDate(issuedDate);
     }
 
-    public double calculateFee(){
+    /** This Method has not done yet */
+    public void calculateFee(){
+    }
+
+    public boolean checkIfOnTime (){
         // This is where it is a reference from StackOverFlow
         long daysBetween = ChronoUnit.DAYS.between(returnedDate.toInstant(), issuedDate.toInstant());
-
-        return (double) daysBetween;
+        return daysBetween <= 14  ;
     }
 }
