@@ -29,10 +29,17 @@ public class Menu {
                     case 1:
                     case 2:
                         itemList.addNewItem();
+                        break;
                     case 3:
+                        itemList.updateItemInfo();
+                        break;
                     case 4:
                     case 5:
+                        memberList.addNewMember();
+                        break;
                     case 6:
+                        memberList.updateMemberInfo();
+                        break;
                     case 7:
                     case 8:
                     case 9:

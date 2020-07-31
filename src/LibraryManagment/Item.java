@@ -21,6 +21,7 @@ public abstract class Item {
     private String language;
     private String status;
     private int numberOfCopies;
+    private int numberOfCopiesOnLoan;
 
     // Constructors of Collection class
     public Item(){}
@@ -78,7 +79,7 @@ public abstract class Item {
     public abstract String toString();
 
     // Method to verify the string in the correct format.
-    static boolean verifyInt(String integer) {
+    public static boolean verifyInt(String integer) {
         try{
             int a = Integer.parseInt(integer);
             return true;

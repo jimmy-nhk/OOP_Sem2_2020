@@ -24,30 +24,21 @@ public class Member {
     private String mail;
     private String address;
     private Calendar expiredDate ;
-    private boolean status; // True is still available , False is expired
+    private String status;
     private double lateFee;
     private ArrayList<Loan> loans;
 
     //Constructors of Member class
     public Member(){}
-    public Member(String fullName,String id,String phone,String mail,String address,String date, boolean status){
+    public Member(String fullName,String id,String phone,String mail,String address,String date, String status){
         this.fullName = fullName;
         this.id = id;
-        this.phone = phone;
         this.mail = mail;
         this.address = address;
-        this.status = status;
         lateFee = 0 ;
-
-        // Add the expired date
-        Scanner scanner = new Scanner(date);
-        System.out.println("Enter the date expired: ");
-        expiredDate.set(Calendar.DAY_OF_MONTH,scanner.nextInt());
-        System.out.println("Enter the month expired");
-        expiredDate.set(Calendar.MONTH,scanner.nextInt());
-        System.out.println("Enter the year expired");
-        expiredDate.set(Calendar.YEAR,scanner.nextInt());
-
+        setPhone(phone); // Check the validation format
+        setStatus(status); // Check the validation format
+        setExpiredDate(date);
     }
 
     // Methods:
@@ -61,6 +52,10 @@ public class Member {
             System.out.println("One member can only have 5 loans at the same time");
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -70,7 +65,16 @@ public class Member {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        Scanner scanner = new Scanner(System.in);
+        // Check the format of phone
+        if (Item.verifyInt(phone)){
+            this.phone = phone;
+        } else {
+            do {
+                System.out.println("Enter phone number in the correct format");
+                this.phone = scanner.nextLine();
+            } while (!Item.verifyInt(this.phone));
+        }
     }
 
     public void setMail(String mail) {
@@ -81,16 +85,38 @@ public class Member {
         this.address = address;
     }
 
-    public void setExpiredDate(Calendar expiredDate) {
-        this.expiredDate = expiredDate;
+    public void setExpiredDate(String date) {
+        try {
+            // Add the expired date
+            Scanner scanner1 = new Scanner(date);
+            int day = scanner1.nextInt();
+            System.out.println("Enter the date expired: ");
+            expiredDate.set(Calendar.DAY_OF_MONTH,day);
+            System.out.println("Enter the month expired");
+            expiredDate.set(Calendar.MONTH,scanner1.nextInt());
+            System.out.println("Enter the year expired");
+            expiredDate.set(Calendar.YEAR,scanner1.nextInt());
+        } catch (Exception e){
+            System.out.println("Enter the wrong format. Should be integer format\nThe expired date has not been entered");
+        }
     }
 
     public void setLateFee(double lateFee) {
         this.lateFee += lateFee;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setStatus(String status) {
+        Scanner scanner = new Scanner(System.in);
+        // Check the format of status in the right form
+        if (status.equalsIgnoreCase("active") || status.equalsIgnoreCase("expired")) {
+            this.status = status;
+        } else {
+            do {
+                System.out.println("Enter the status ( active or expired): ");
+                this.status = scanner.nextLine();
+            } while (!(this.status.equalsIgnoreCase("active")) && !(this.status.equalsIgnoreCase("expired")));
+
+        }
     }
 
     @Override

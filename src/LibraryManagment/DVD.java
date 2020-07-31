@@ -22,9 +22,10 @@ public class DVD extends Item {
         this.author = author;
     }
 
-    // Set Methods:
-    public void setId(int id) {
-        this.id = id;
+    //  Methods:
+
+    public int getId() {
+        return id;
     }
 
     public void setAuthor(String author) {
