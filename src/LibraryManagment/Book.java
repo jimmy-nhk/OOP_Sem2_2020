@@ -22,34 +22,31 @@ public class Book extends Item{
 
     //Constructors of Book class
     public Book(){}
-
-    @Override
-    public String toString() {
-        return null;
-    }
-
     public Book(String title , String author, String edition , String publication, String year, String language,String status,String copy ,  String isbn){
         super(title ,  publication,  year ,  language, status, copy);
         this.author = author;
         this.edition = edition;
-
-        // Check the constraints of ISBN:
-//        do {
-//            if (verifyISBN(isbn)){
-//                this.isbn = isbn;
-//                break;
-//            } else {
-//                // Re-enter the ISBN until it is in the right format
-//                System.out.println("Enter again the isbn in the correct format: ");
-//                Scanner scanner = new Scanner(System.in);
-//                this.isbn = scanner.nextLine().trim();
-//                if (verifyISBN(this.isbn))
-//                    break;
-//            }
-//        } while (true);
         this.isbn = isbn;
-
     }
+
+    @Override
+    public String toString() {
+        return  super.toString()+ author + '\'' +
+                edition + '\'' +
+                 isbn + '\'';
+    }
+
+    @Override
+    public String getString() {
+        return "Book:\n" + super.getTitle() + "\n"
+                + author + "\n" + edition+"\n" + super.getPublication() +"\n"
+                + super.getYear() +"\n"+super.getLanguage()+"\n"+
+                super.getStatus()+"\nNumber Of Copies: "+getNumberOfCopies()+
+                "\nNumber of Copies on Loan: " + super.getNumberOfCopiesOnLoan() +"\n"
+                + isbn +"\n";
+    }
+
+
 
 
     // The method to check the validation of ISBN
@@ -73,16 +70,7 @@ public class Book extends Item{
     }
 
     public void setIsbn(String isbn) {
-        if (verifyISBN(isbn)){
-            this.isbn = isbn;
-        } else {
-            System.out.println("Enter again the isbn in the correct format: ");
-            try {
-                Scanner scanner = new Scanner(System.in);
-                this.isbn = scanner.next();
-            } catch (Exception e){
-                this.isbn = "";
-            }
-        }
+        this.isbn = isbn;
     }
 }
+

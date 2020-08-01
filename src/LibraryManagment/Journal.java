@@ -16,14 +16,17 @@ public class Journal extends Item {
 
     @Override
     public String toString() {
-        return "Journal{" +
-                "issn='" + issn + '\'' +
-                '}';
+        return super.toString()+ issn ;
     }
 
     @Override
     public String getString() {
-        return "String" ;
+        return "Journal:\n" + super.getTitle() + "\n"
+                + super.getPublication() +"\n"
+                + super.getYear() +"\n"+super.getLanguage()+"\n"+
+                super.getStatus()+"\nNumber Of Copies: "+getNumberOfCopies()+
+                "\nNumber of Copies on Loan: " + super.getNumberOfCopiesOnLoan() +"\n"
+                + issn +"\n" ;
     }
 
 
@@ -32,7 +35,7 @@ public class Journal extends Item {
     }
 
     public static boolean verifyISSN(String issn){
-        return verifyISSN(issn) && issn.length() == 8;
+        return verifyInt(issn) && issn.length() == 8;
     }
 
     public void setIssn(String issn) {

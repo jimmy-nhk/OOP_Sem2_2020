@@ -1,5 +1,7 @@
 package LibraryManagment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,8 +11,69 @@ import static LibraryManagment.Journal.verifyISSN;
 public class ItemList {
     // Data fields:
     private ArrayList<Item> itemList = new ArrayList<>();
+    public static final File BOOKFILE = new File("src/Book.txt");
+    public static final File DVDFILE = new File("src/DVD.txt");
+    public static final File JOURNALFILE = new File("src/Journal.txt");
 
     //Methods:
+    public void start(){
+        try {
+            Scanner sc = new Scanner(BOOKFILE);
+            while (sc.hasNext()) {
+                String title = sc.nextLine();
+                String author = sc.nextLine();
+                String edition = sc.nextLine();
+                String publication = sc.nextLine();
+                String year = sc.nextLine();
+                String language = sc.nextLine();
+                String status = sc.nextLine();
+                String copy = sc.nextLine();
+                String isbn = sc.nextLine();
+                itemList.add(new Book(title, author, edition,publication,year,language, status,copy,isbn) {
+                });
+            }
+            sc.close();
+        } catch (FileNotFoundException e){
+            System.out.println("Cannot find the file");
+        }
+
+        try {
+            Scanner sc = new Scanner(JOURNALFILE);
+            while (sc.hasNext()) {
+                String title = sc.nextLine();
+                String publication = sc.nextLine();
+                String year = sc.nextLine();
+                String language = sc.nextLine();
+                String status = sc.nextLine();
+                String copy = sc.nextLine();
+                String issn = sc.nextLine();
+                itemList.add(new Journal(title,publication,year,language, status,copy,issn) {
+                });
+            }
+            sc.close();
+        } catch (FileNotFoundException e){
+            System.out.println("Cannot find the file");
+        }
+
+        try {
+            Scanner sc = new Scanner(DVDFILE);
+            while (sc.hasNext()) {
+                String title = sc.nextLine();
+                String author = sc.nextLine();
+                String publication = sc.nextLine();
+                String year = sc.nextLine();
+                String language = sc.nextLine();
+                String status = sc.nextLine();
+                String copy = sc.nextLine();
+                itemList.add(new DVD(title, author,publication,year,language, status,copy) {
+                });
+            }
+            sc.close();
+        } catch (FileNotFoundException e){
+            System.out.println("Cannot find the file");
+        }
+
+    }
     public void searchItem (){
         ArrayList<Item> items = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -21,9 +84,12 @@ public class ItemList {
 
         boolean checkKeyWordExists = false;
         for (int i = 0 ; i < itemList.size(); i ++){
-            if (itemList.get(i).toString().matches(pattern)){
+            if (itemList.get(i).toString().toLowerCase().matches(pattern.toLowerCase())){
                 items.add(itemList.get(i));
+                System.out.println(itemList.get(i).toString());
                 checkKeyWordExists = true;
+            } else {
+                System.out.println(itemList.get(i).toString());
             }
         }
         // Call a method helping us display a list of member in the library
@@ -39,38 +105,61 @@ public class ItemList {
     public void displayItem(ArrayList<Item> items){
         Scanner scanner = new Scanner(System.in);
         int size = (int) Math.ceil(items.size() / 10.0);
-        Item [][] arr = new Item[size][10];
-        int tmpt = 0;
-        boolean check = true;
-        while (check){
-            try {
-                for (int j = 0 ; j < 10 ; j ++){
-                    System.out.println(arr[tmpt][j].getString());
+        if (size > 1) {
+            Item [][] arr = new Item[size][10];
+            int count = 0 ; // get the element from arrayList member
+
+            // Insert the arraylist member to array
+            for (int i = 0 ; i < size; i++){
+                for (int k = 0 ; k < 10 ; k ++){
+                    if (count == items.size() ){
+                        break;
+                    } else {
+                        arr[i][k] = items.get(count);
+                        count++;
+                    }
                 }
-                System.out.println("Enter the function:");
-                System.out.println(" n is the next page \np is the " +
-                        "previous page\nq for quit:");
-                String input = scanner.nextLine().toLowerCase();
-                switch (input){
-                    case "n":
-                        if (tmpt < size - 1)
-                            tmpt++;
-                        break;
-                    case "p":
-                        if (tmpt > 0)
-                            tmpt--;
-                        break;
-                    case "q":
-                        check = false;
-                        break;
+            }
+            int tmpt = 0;
+            boolean check = true;
+            while (check){
+                try {
+                    for (int j = 0 ; j < 10 ; j ++){
+                        // When it is running out of element, the program will throw an exception which prevents further error
+                        try {
+                            System.out.println(arr[tmpt][j].getString());
+                        } catch (Exception e){
+                        }
+                    }
+                    System.out.println("Enter the function:");
+                    System.out.println("n is the next page \np is the " +
+                            "previous page\nq for quit:");
+                    String input = scanner.nextLine().toLowerCase();
+                    switch (input){
+                        case "n":
+                            if (tmpt < size - 1)
+                                tmpt++;
+                            break;
+                        case "p":
+                            if (tmpt > 0)
+                                tmpt--;
+                            break;
+                        case "q":
+                            check = false;
+                            break;
+                    }
+                } catch (Exception e){
+                    check = false;
                 }
-            } catch (Exception e){
-                check = false;
+            }
+        } else {
+            for (int i = 0 ; i < items.size(); i++){
+                System.out.println(items.get(i).toString());
             }
         }
+
     }
-
-
+    // Main method in menu
     public void addNewItem(){
         System.out.println("What is the item ?");
         Scanner scanner = new Scanner(System.in);
@@ -133,8 +222,7 @@ public class ItemList {
                                 break;
                             case "YEAR":
                                 System.out.println("What is the year ?");
-                                itemList.get(i).setYear(scanner.nextInt());
-                                scanner.nextLine(); // This helps later scanner
+                                itemList.get(i).setYear(scanner.nextLine());
                                 break;
                             case "LANGUAGE":
                                 System.out.println("What is the language of the journal?");
@@ -145,8 +233,7 @@ public class ItemList {
                                 break;
                             case "NUMBER OF COPIES":
                                 System.out.println("What is the number of copies?");
-                                itemList.get(i).setNumberOfCopies(scanner.nextInt());
-                                scanner.nextLine();
+                                itemList.get(i).setNumberOfCopies(scanner.nextLine());
                                 break;
                             case "0":
                                 check = false;
@@ -165,18 +252,17 @@ public class ItemList {
     public void dvdUpdate(){
         Scanner scanner = new Scanner(System.in);
         boolean check = true;
-        try {
-            System.out.println("What is the id of this DVD?");
-            int id = Integer.parseInt(scanner.nextLine());
-            for (int i = 0 ; i < itemList.size(); i++){
-                if (itemList.get(i) instanceof DVD){
-                    if (id == ((DVD) itemList.get(i)).getId() ){
-                        while (check){
+        System.out.println("What is the id of this DVD?");
+        int id = Integer.parseInt(scanner.nextLine());
+        for (int i = 0 ; i < itemList.size(); i++){
+            if (itemList.get(i) instanceof DVD){
+                if (id == ((DVD) itemList.get(i)).getId() ){
+                    while (check){
 
-                            // Ask what information to be updated
-                            System.out.println("Which information wanted to be updated ?\n(Title / Author / Publication / Year / ISBN / numberOfCopies etc.. \n Enter 0 to finish updating )");
-                            String information = scanner.nextLine().toUpperCase();
-                            switch (information){
+                        // Ask what information to be updated
+                        System.out.println("Which information wanted to be updated ?\n(Title / Author / Publication / Year / ISBN / numberOfCopies etc.. \n Enter 0 to finish updating )");
+                        String information = scanner.nextLine().toUpperCase();
+                        switch (information){
                                 case "TITLE":
                                     System.out.println("What is the new title ? ");
                                     itemList.get(i).setTitle(scanner.nextLine());
@@ -191,8 +277,7 @@ public class ItemList {
                                     break;
                                 case "YEAR":
                                     System.out.println("What is the year ?");
-                                    itemList.get(i).setYear(scanner.nextInt());
-                                    scanner.nextLine(); // This helps later scanner
+                                    itemList.get(i).setYear(scanner.nextLine());
                                     break;
                                 case "LANGUAGE":
                                     System.out.println("What is the language of the book?");
@@ -203,8 +288,7 @@ public class ItemList {
                                     break;
                                 case "NUMBER OF COPIES":
                                     System.out.println("What is the number of copies?");
-                                    itemList.get(i).setNumberOfCopies(scanner.nextInt());
-                                    scanner.nextLine();
+                                    itemList.get(i).setNumberOfCopies(scanner.nextLine());
                                     break;
                                 case "0":
                                     check = false;
@@ -217,9 +301,6 @@ public class ItemList {
                     }
                 }
             }
-        } catch (Exception e){
-            System.out.println("Cannot find the DVD you typed");
-        }
     }
 
     // Methods contribute for updateItemInfo method
@@ -253,8 +334,7 @@ public class ItemList {
                                 break;
                             case "YEAR":
                                 System.out.println("What is the year ?");
-                                itemList.get(i).setYear(scanner.nextInt());
-                                scanner.nextLine(); // This helps later scanner
+                                itemList.get(i).setYear(scanner.nextLine());
                                 break;
                             case "LANGUAGE":
                                 System.out.println("What is the language of the book?");
@@ -265,8 +345,7 @@ public class ItemList {
                                 break;
                             case "NUMBER OF COPIES":
                                 System.out.println("What is the number of copies?");
-                                itemList.get(i).setNumberOfCopies(scanner.nextInt());
-                                scanner.nextLine();
+                                itemList.get(i).setNumberOfCopies(scanner.nextLine());
                                 break;
                             case "0":
                                 check = false;
@@ -284,20 +363,23 @@ public class ItemList {
     // Methods import items:
     public void newJournal(){
         Scanner scanner = new Scanner(System.in);
+        // Create a new Journal
+        Journal journal = new Journal();
+
         // Enter the information of the Journal
         System.out.println("What is the title of the Journal? ");
-        String title2 = scanner.nextLine().trim();
+        journal.setTitle(scanner.nextLine().trim());
         System.out.println("What is the publication? ");
-        String publication2 = scanner.nextLine().trim();
+        journal.setPublication(scanner.nextLine().trim());
         System.out.println("What is the year? ");
-        String year2 = scanner.nextLine().trim();
+        journal.setYear(scanner.nextLine().trim());
         System.out.println("What is the language of this Journal? ");
-        String language2 = scanner.nextLine().trim();
+        journal.setLanguage(scanner.nextLine().trim());
         System.out.println("Is it available or on loan ?");
-        String status2 = scanner.nextLine().trim();
+        journal.setStatus(scanner.nextLine().trim());
         System.out.println("How many copies of this Journal?");
-        String numberOfCopies2 = scanner.nextLine().trim();
-        System.out.println("What is the ISSN of this Journal?");
+        journal.setNumberOfCopies(scanner.nextLine().trim());
+        System.out.println("Enter the ISSN of this Journal?");
         String issn = scanner.nextLine().trim();
 
         // Check if the ISSN is unique and in the correct format
@@ -320,31 +402,33 @@ public class ItemList {
             } else
                 break;
         }
+        journal.setIssn(issn);
 
-        itemList.add(new Journal(title2,publication2,year2,language2,status2,numberOfCopies2, issn));
+        itemList.add(journal);
         // Announce the done action:
         System.out.println("Successfully added");
         scanner.nextLine(); // Give the user time to see user's input
     }
     public void newDVD(){
         Scanner scanner = new Scanner(System.in);
+        DVD dvd = new DVD();
         // Enter the information of the DVD
         System.out.println("What is the title of the DVD? ");
-        String title1 = scanner.nextLine().trim();
+        dvd.setTitle(scanner.nextLine().trim());
         System.out.println("What is the author of the DVD?");
-        String author1 = scanner.nextLine().trim();
+        dvd.setAuthor(scanner.nextLine().trim());
         System.out.println("What is the publication? ");
-        String publication1 = scanner.nextLine().trim();
+        dvd.setPublication(scanner.nextLine().trim());
         System.out.println("What is the year? ");
-        String year1 = scanner.nextLine().trim();
+        dvd.setYear(scanner.nextLine().trim());
         System.out.println("What is the language of this DVD? ");
-        String language1 = scanner.nextLine().trim();
+        dvd.setLanguage(scanner.nextLine().trim());
         System.out.println("Is it available or on loan ?");
-        String status1 = scanner.nextLine().trim();
+        dvd.setStatus(scanner.nextLine().trim());
         System.out.println("How many copies of this DVD?");
-        String numberOfCopies1 = scanner.nextLine().trim();
-        itemList.add(new DVD(title1,author1,publication1,year1,language1,status1,numberOfCopies1));
+        dvd.setNumberOfCopies(scanner.nextLine().trim());
 
+        itemList.add(dvd);
         // Announce the done action:
         System.out.println("Successfully added");
         scanner.nextLine(); // Give the user time to see user's input
@@ -352,26 +436,27 @@ public class ItemList {
 
     public void newBook (){
         Scanner scanner = new Scanner(System.in);
+        Book book = new Book();
+
         // Enter the information of the book
         System.out.println("What is the title of the book? ");
-        String title = scanner.nextLine().trim();
+        book.setTitle(scanner.nextLine().trim());
         System.out.println("What is the author of the book?");
-        String author = scanner.nextLine().trim();
-        System.out.println("What is the edition? ");
-        String edition = scanner.nextLine().trim();
+        book.setAuthor(scanner.nextLine().trim());
+        System.out.println("What is the edition ?");
+        book.setEdition(scanner.nextLine().trim());
         System.out.println("What is the publication? ");
-        String publication = scanner.nextLine().trim();
+        book.setPublication(scanner.nextLine().trim());
         System.out.println("What is the year? ");
-        String year = scanner.nextLine().trim();
+        book.setYear(scanner.nextLine().trim());
         System.out.println("What is the language of this book? ");
-        String language = scanner.nextLine().trim();
+        book.setLanguage(scanner.nextLine().trim());
         System.out.println("Is it available or on loan ?");
-        String status = scanner.nextLine().trim();
+        book.setStatus(scanner.nextLine().trim());
         System.out.println("How many copies of this book?");
-        String numberOfCopies = scanner.nextLine().trim();
-        System.out.println("What is its ISBN ?");
+        book.setNumberOfCopies(scanner.nextLine().trim());
+        System.out.println("Enter the ISBN of this book?");
         String isbn = scanner.nextLine().trim();
-
         // Check if isbn is unique and in the correct format
         while (true){
             do {
@@ -392,14 +477,12 @@ public class ItemList {
             } else
                 break;
         }
+        book.setIsbn(isbn);
 
-        // Add the book to the itemList ArrayList
-        itemList.add(new Book(title,author,edition,publication,year,language,status,numberOfCopies,isbn));
-
+        itemList.add(book);
         // Announce the done action:
         System.out.println("Successfully added");
         scanner.nextLine(); // Give the user time to see user's input
-
     }
 
     // Check if the book already exists

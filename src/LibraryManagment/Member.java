@@ -79,7 +79,13 @@ public class Member {
     }
 
     public void setMail(String mail) {
-        this.mail = mail;
+        String pattern = ".*@rmit\\.edu\\.vn";
+        if (mail.matches(pattern)){
+            this.mail = mail;
+        } else{
+            System.out.println("The input format is incorrect. The data will not be saved");
+            this.mail = "";
+        }
     }
 
     public void setAddress(String address) {
@@ -88,7 +94,7 @@ public class Member {
 
     public void setExpiredDate(String date) {
         try {
-            LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            this.expiredDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         } catch (Exception e){
             System.out.println("Failure to input the expired date. Please follow the instructed format\nThe expired date has not yet been updated");
         }

@@ -1,5 +1,7 @@
 package LibraryManagment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Menu {
@@ -9,9 +11,13 @@ public class Menu {
     public static Scanner scanner = new Scanner(System.in);
 
 
+
+
     // Methods:
 
     public static void main(String[] args) {
+        // Start the program by loading all the files in:
+        start();
 
         while (true){
             // Display the menu first for the user
@@ -25,9 +31,11 @@ public class Menu {
                     input = Integer.parseInt(scanner.nextLine());
                 }
 
+                // Choose the function:
                 switch (input){
                     case 1:
-
+                        itemList.searchItem();
+                        break;
                     case 2:
                         itemList.addNewItem();
                         break;
@@ -46,17 +54,21 @@ public class Menu {
                     case 7:
                     case 8:
                     case 9:
+                        saveData();
+                        break;
                     case 10:
                         quit();
                 }
             } catch (Exception e)
             {
-                System.out.println("The input should be the integer from 1 to 10.");
+                System.out.println("The input should be an integer from 1 to 10.");
             }
         }
     }
-
-    public static void start(){}
+    public static void start(){
+        itemList.start();
+        memberList.start();
+    }
 
     // Display the menu:
     public static void displayMenu(){
@@ -76,7 +88,7 @@ public class Menu {
                 "Enter a function (1-10):");
     }
 
-    public void saveData(){}
+    public static void saveData(){}
 
     public static void quit(){
         System.exit(0);
