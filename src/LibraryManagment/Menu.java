@@ -56,7 +56,8 @@ public class Menu {
                         borrowItems();
                         break;
                     case 8:
-
+                        returnItems();
+                        break;
                     case 9:
                         saveData();
                         break;
@@ -121,7 +122,6 @@ public class Menu {
 
                         /** Which is the member in the memberList: */
                         int memberTh = returnMemberExists(id);
-                         System.out.println(memberTh);
 
                          /** Add the loan to the member */
                          memberList.getMembers().get(memberTh).addLoans(new Loan(itemList.getItems().get(itemTh)));
@@ -178,6 +178,7 @@ public class Menu {
 //     Check if the item exists
     public static boolean checkItemExists ( String input) {
 
+        // Run the loop to check if the item exists
         for (int i = 0; i < itemList.getItems().size(); i++) {
             // Double access to get the member id to compare with the entered keyword
             if (itemList.getItems().get(i) instanceof Book) {
@@ -224,7 +225,52 @@ public class Menu {
 
 
 
-    public void returnItems (){}
+    public static void returnItems (){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the ID member: ");
+        String id = scanner.nextLine();
+
+        // Check if member exists
+        if (checkMemberExists(id)){
+
+            int memberTh = returnMemberExists(id);
+            System.out.println("Enter the ISBN (Book) or ID (DVD) or ISSN (Journal): ");
+            String input = scanner.nextLine();
+
+            // Check if item exists
+            if (checkItemExists(input)){
+                int itemTh = returnItemExists(input);
+
+                // Check the loan of this member
+                int loanTh = memberList.getMembers().get(memberTh).findLoan(itemList.getItems().get(itemTh));
+                // This variable shows which loan the member wants to return
+                if ( loanTh >= 0){
+
+                    // Enter the return date:
+                    System.out.println("Enter the returned date:\neg: 05-11-2020");
+
+                    // Complete the loan class:
+                    memberList.getMembers().get(memberTh).getLoans()[loanTh].setReturnedDate(scanner.nextLine().trim());
+
+                    // Calculate the late fee
+                    double fee = memberList.getMembers().get(memberTh).getLoans()[loanTh].calculateFee();
+                    memberList.getMembers().get(memberTh).setLateFee(fee);
+
+                    System.out.println(memberList.getMembers().get(memberTh).getLateFee());
+                    // Update the number of copies on loan
+                    itemList.getItems().get(itemTh).decreaseNumberOfCopiesOnLoan();
+
+                    // Update status of the item:
+                    itemList.getItems().get(itemTh).setStatus("Available");
+                    System.out.println("Successfully return the item");
+                } else {
+                    System.out.println("This member has not borrowed this item before.");
+                }
+            }
+        } else {
+            System.out.println("This member does not exists. Please re-select the method");
+        }
+    }
 
     public void displayBorrowedItem (){}
 }

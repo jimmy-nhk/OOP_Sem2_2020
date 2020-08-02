@@ -94,6 +94,8 @@ public class ItemList {
             displayItem(items2);
         } else
             displayItem(items);
+
+        scanner.nextLine();
     }
 
     public void displayItem(ArrayList<Item> items2){

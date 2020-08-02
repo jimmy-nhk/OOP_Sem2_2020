@@ -119,15 +119,28 @@ public class Member {
     }
 
     public void setLateFee(double lateFee) {
-        this.lateFee = lateFee;
+        this.lateFee += lateFee;
     }
 
-    public void addLateFee (){
-        double lateFee = 0 ;
-        for (int i = 0 ; i < 5 ; i++){
-            lateFee += loans[i].calculateFee();
+//    public void addLateFee (){
+//        double lateFee = 0 ;
+//        for (int i = 0 ; i < 5 ; i++){
+//            lateFee += loans[i].calculateFee();
+//        }
+//        this.lateFee += lateFee;
+//    }
+
+    public double getLateFee() {
+        return lateFee;
+    }
+
+    public int findLoan (Item item){
+        for (int i = 0 ; i < loans.length ; i ++){
+            if (item.equals(loans[i].getItem())){
+                return i ;
+            }
         }
-        this.lateFee += lateFee;
+        return -1;
     }
 
     public void setStatus(String status) {

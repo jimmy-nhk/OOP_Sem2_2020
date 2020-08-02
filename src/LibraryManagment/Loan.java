@@ -15,6 +15,7 @@ package LibraryManagment;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Loan {
@@ -38,14 +39,16 @@ public class Loan {
         return item;
     }
 
+    public LocalDate getIssuedDate() {
+        return issuedDate;
+    }
+
     public void setIssuedDate(LocalDate issuedDate) {
         this.issuedDate = issuedDate;
     }
 
-    public void setReturnedDate() {
+    public void setReturnedDate( String date) {
         try {
-            System.out.println("Enter the returned date following the format dd-MM-yyyy: ");
-            String date = scanner.nextLine();
             this.returnedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         } catch (Exception e){
             System.out.println("Failure to set returned date because the input format is incorrect");
@@ -53,12 +56,16 @@ public class Loan {
 
     }
 
+    public LocalDate getReturnedDate() {
+        return returnedDate;
+    }
+
     /** This Method calculates the Fee */
     public double calculateFee(){
         double lateFee = 0 ;
         final double FEECHARGED = 0.1;
         try {
-            long daysBetween = ChronoUnit.DAYS.between(returnedDate,issuedDate);
+            long daysBetween = ChronoUnit.DAYS.between(issuedDate,returnedDate);
             if (item instanceof Book){ // if it is a book , must return before 15 days
                 lateFee = daysBetween <= 14 ? FEECHARGED * 0 : FEECHARGED * (daysBetween - 14);
             } else if (item instanceof DVD || item instanceof Journal){ // if it is either a DVD or a Journal, must return before 8 days
@@ -77,5 +84,21 @@ public class Loan {
                 "issuedDate = " + issuedDate +
                 ", returnedDate = " + returnedDate +
                 ", item = " + item.getTitle() +"}\n" ;
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Loan)) return false;
+        Loan loan = (Loan) o;
+        return Objects.equals(issuedDate, loan.issuedDate) &&
+                Objects.equals(item, loan.item) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(issuedDate, returnedDate, item, scanner);
     }
 }

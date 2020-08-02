@@ -93,6 +93,10 @@ public abstract class Item {
         numberOfCopiesOnLoan++;
     }
 
+    public void decreaseNumberOfCopiesOnLoan(){
+        numberOfCopiesOnLoan--;
+    }
+
     public String getTitle() {
         return title;
     }

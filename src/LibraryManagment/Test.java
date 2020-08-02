@@ -19,78 +19,98 @@ public class Test {
     public static MemberList memberList = new MemberList();
     public static Scanner scanner = new Scanner(System.in);
 
+
     public static void main(String[] args) throws IOException {
 
-         itemList.start();
-         memberList.start();
-        System.out.println(itemList.getItems().get(0).toString());
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the ISBN (Book) or ID (DVD) or ISSN (Journal): ");
-        String input = scanner.nextLine();
 
-        // Check if the item exists in the library:
-        if (checkItemExists(input)){
-            // Add the item to the method
-            int itemTh = returnItemExists(input); /** which is the item in the itemList */
+        System.out.println("Enter the date:");
+        String date = scanner.nextLine();
 
-            // Check the item status , if it is not available, display a message
-            if (checkItemStatus(itemList.getItems().get(itemTh))){
+        LocalDate date1 = LocalDate.parse(date,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        System.out.println(date1);
 
-                // Check the id of the member:
-                System.out.println("Enter the id of the member: ");
-                String id = scanner.nextLine();
 
-                // Check if the member exists
-                if (checkMemberExists(id)){
-                    int memberTh = 0 ;
 
-                        /** Which is the member in the memberList: */
-                        memberTh = returnMemberExists(id);
-                        System.out.println(memberTh);
 
-                /** Above to this point is right / Please recheck again the below statement */
-                    memberList.getMembers().get(memberTh).addLoans(new Loan(itemList.getItems().get(itemTh)));
-                    // member.addLoans(new Loan(itemList.getItems().get(itemTh)));
-                    // memberList.getMembers().set(memberTh,member);
-//                    finally {
-//                        // Check the capability of the member having enough items yet ?
-//                        if (memberList.getMembers().get(memberTh).getLoans().size() < 5){
+
+
+
+
+
+
+
+
+//         itemList.start();
+//         memberList.start();
+//        System.out.println(itemList.getItems().get(0).toString());
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Enter the ISBN (Book) or ID (DVD) or ISSN (Journal): ");
+//        String input = scanner.nextLine();
 //
-//                            // Add the loan to the member information
-//                            memberList.getMembers().get(memberTh).getLoans().add(new Loan(itemList.getItems().get(itemTh)));
+//        // Check if the item exists in the library:
+//        if (checkItemExists(input)){
+//            // Add the item to the method
+//            int itemTh = returnItemExists(input); /** which is the item in the itemList */
 //
-//                            // Increase the number of copy on loan:
-//                            itemList.getItems().get(itemTh).increaseNumberOfCopiesOnLoan();
+//            // Check the item status , if it is not available, display a message
+//            if (checkItemStatus(itemList.getItems().get(itemTh))){
 //
-//                            // Check the number of copies and number on loan.
-//                            if (itemList.getItems().get(itemTh).getNumberOfCopiesOnLoan() < itemList.getItems().get(itemTh).getNumberOfCopies() ){
+//                // Check the id of the member:
+//                System.out.println("Enter the id of the member: ");
+//                String id = scanner.nextLine();
 //
-//                                // If the number of copies on loan is less than number of copy, status is set to Available. Otherwise, it is On loan.
-//                                itemList.getItems().get(itemTh).setStatus("Available");
-//                            } else {
-//                                itemList.getItems().get(itemTh).setStatus("On loan");
-//                            }
-//                            // Announce the successful statement:
-//                            System.out.println("Successfully borrow the item.");
+//                // Check if the member exists
+//                if (checkMemberExists(id)){
+//                    int memberTh = 0 ;
 //
-//                        } else {
-//                            System.out.println("This member cannot borrow more than 5 items at the same time.");
-//                        }
-//                    }
-
-
-
-                } else {
-                    System.out.println("The member does not exists in the system.");
-                }
-            } else {
-                System.out.println("This item is not available yet.");
-            }
-
-        } else {
-            System.out.println("The item cannot be found in the system.");
-        }
-        scanner.nextLine();
+//                        /** Which is the member in the memberList: */
+//                        memberTh = returnMemberExists(id);
+//                        System.out.println(memberTh);
+//
+//                /** Above to this point is right / Please recheck again the below statement */
+//                    memberList.getMembers().get(memberTh).addLoans(new Loan(itemList.getItems().get(itemTh)));
+//                    // member.addLoans(new Loan(itemList.getItems().get(itemTh)));
+//                    // memberList.getMembers().set(memberTh,member);
+////                    finally {
+////                        // Check the capability of the member having enough items yet ?
+////                        if (memberList.getMembers().get(memberTh).getLoans().size() < 5){
+////
+////                            // Add the loan to the member information
+////                            memberList.getMembers().get(memberTh).getLoans().add(new Loan(itemList.getItems().get(itemTh)));
+////
+////                            // Increase the number of copy on loan:
+////                            itemList.getItems().get(itemTh).increaseNumberOfCopiesOnLoan();
+////
+////                            // Check the number of copies and number on loan.
+////                            if (itemList.getItems().get(itemTh).getNumberOfCopiesOnLoan() < itemList.getItems().get(itemTh).getNumberOfCopies() ){
+////
+////                                // If the number of copies on loan is less than number of copy, status is set to Available. Otherwise, it is On loan.
+////                                itemList.getItems().get(itemTh).setStatus("Available");
+////                            } else {
+////                                itemList.getItems().get(itemTh).setStatus("On loan");
+////                            }
+////                            // Announce the successful statement:
+////                            System.out.println("Successfully borrow the item.");
+////
+////                        } else {
+////                            System.out.println("This member cannot borrow more than 5 items at the same time.");
+////                        }
+////                    }
+//
+//
+//
+//                } else {
+//                    System.out.println("The member does not exists in the system.");
+//                }
+//            } else {
+//                System.out.println("This item is not available yet.");
+//            }
+//
+//        } else {
+//            System.out.println("The item cannot be found in the system.");
+//        }
+//        scanner.nextLine();
 
 
 
