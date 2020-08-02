@@ -187,9 +187,14 @@ public class MemberList {
                 found = true;
                 // Ask the user what information to be updated
                 while (check){
-                    System.out.println("What information do you want to update ?\n(Name , phone , address , status ... etc)");
+                    System.out.println("What information do you want to update ?\n(ID, name , phone , address , status ... etc)\n" +
+                            "Enter 0 to quit");
                     String information = scanner.nextLine().toUpperCase();
                     switch (information){
+                        case "ID":
+                            System.out.println("What is the new ID ?");
+                            members.get(i).setId(scanner.nextLine());
+                            break;
                         case "NAME":
                             System.out.println("What is the new name?");
                             members.get(i).setFullName(scanner.nextLine());

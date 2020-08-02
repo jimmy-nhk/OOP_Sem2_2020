@@ -123,7 +123,9 @@ public class Member {
     }
 
 
-
+    public String getStatus() {
+        return status;
+    }
 
     public double getLateFee() {
         return lateFee;

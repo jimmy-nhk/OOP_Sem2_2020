@@ -130,7 +130,7 @@ public class Menu {
                 String id = scanner.nextLine();
 
                 // Check if the member exists
-                if (checkMemberExists(id)){
+                if (checkMemberValidation(id)){
 
                         /** Which is the member in the memberList: */
                         int memberTh = returnMemberExists(id);
@@ -213,12 +213,16 @@ public class Menu {
         return false;
     }
 
-    // Check if the member is already registered in the library
-    public static boolean checkMemberExists( String id){
+    // Check if the member is already registered in the library and still active ?
+    public static boolean checkMemberValidation( String id){
+        Member member = new Member();
         for (int i = 0 ; i < memberList.getMembers().size(); i++){
             // Double access to get the member id to compare with the entered keyword
             if (memberList.getMembers().get(i).getId().equalsIgnoreCase(id)){
-                return true;
+                member = memberList.getMembers().get(i);
+                if (member.getStatus().equalsIgnoreCase("Active")){
+                    return true;
+                }
             }
         }
         return false;
@@ -242,7 +246,7 @@ public class Menu {
         String id = scanner.nextLine();
 
         // Check if member exists
-        if (checkMemberExists(id)){
+        if (checkMemberValidation(id)){
 
             int memberTh = returnMemberExists(id);
             System.out.println("Enter the ISBN (Book) or ID (DVD) or ISSN (Journal): ");
