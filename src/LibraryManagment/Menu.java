@@ -1,3 +1,15 @@
+/*
+  RMIT University Vietnam
+  Course: INTE2512 Object-Oriented Programming
+  Semester: 2020B
+  Assessment: Assignment 1
+  Author: Nguyen Hoang Khang
+  ID: s3802040
+  Created  date: 29/07/2020
+  Last modified:
+  Acknowledgement: Acknowledge the resources that you use here.
+*/
+
 package LibraryManagment;
 
 import java.io.File;
@@ -226,7 +238,6 @@ public class Menu {
 
 
     public static void returnItems (){
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the ID member: ");
         String id = scanner.nextLine();
 
@@ -262,6 +273,9 @@ public class Menu {
 
                     // Update status of the item:
                     itemList.getItems().get(itemTh).setStatus("Available");
+
+                    memberList.getMembers().get(memberTh).getLoans()[loanTh] = null; // Remove the loan from the memberList
+
                     System.out.println("Successfully return the item");
                 } else {
                     System.out.println("This member has not borrowed this item before.");

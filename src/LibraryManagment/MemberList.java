@@ -1,3 +1,14 @@
+/*
+  RMIT University Vietnam
+  Course: INTE2512 Object-Oriented Programming
+  Semester: 2020B
+  Assessment: Assignment 1
+  Author: Nguyen Hoang Khang
+  ID: s3802040
+  Created  date: 29/07/2020
+  Last modified:
+  Acknowledgement: Acknowledge the resources that you use here.
+*/
 package LibraryManagment;
 
 import java.io.File;

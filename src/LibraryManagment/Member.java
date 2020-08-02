@@ -122,13 +122,8 @@ public class Member {
         this.lateFee += lateFee;
     }
 
-//    public void addLateFee (){
-//        double lateFee = 0 ;
-//        for (int i = 0 ; i < 5 ; i++){
-//            lateFee += loans[i].calculateFee();
-//        }
-//        this.lateFee += lateFee;
-//    }
+
+
 
     public double getLateFee() {
         return lateFee;
