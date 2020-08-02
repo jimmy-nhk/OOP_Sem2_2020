@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MemberList {
     // Data field:
-    private ArrayList<Member> memberList = new ArrayList<>();
+    private ArrayList<Member> members = new ArrayList<>();
     public static final File MEMBERFILE = new File("src/Member.txt");
 
     // Methods:
@@ -23,7 +23,7 @@ public class MemberList {
                 String address = sc.nextLine();
                 String date = sc.nextLine();
                 String status = sc.nextLine();
-                memberList.add(new Member(name,id,phone,mail,address,date,status));
+                members.add(new Member(name,id,phone,mail,address,date,status));
             }
             sc.close();
         } catch (FileNotFoundException e){
@@ -32,7 +32,7 @@ public class MemberList {
     }
 
     public void searchMember (){
-        ArrayList<Member> members = new ArrayList<>();
+        ArrayList<Member> members2 = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the keyword in member " +
@@ -40,38 +40,39 @@ public class MemberList {
         String input = scanner.nextLine(); // Enter the keyword want to search
         String pattern = ".*"+input+".*"; // Making the pattern for searching
 
-        for (int i = 0 ; i < memberList.size(); i ++){
-            if (memberList.get(i).toString().toLowerCase().matches(pattern.toLowerCase())){
-                members.add(memberList.get(i));
+        boolean checkKeyWordExists = false;
+        for (int i = 0 ; i < members.size(); i ++){
+            if (members.get(i).toString().toLowerCase().matches(pattern.toLowerCase())){
+                members2.add(members.get(i));
+                checkKeyWordExists = true;
             }
         }
 
-        if (members.size() > 0  && members.size() <= 10){
-            for (int i = 0 ; i < members.size(); i++){
-                System.out.println(members.get(i).getString());
-                scanner.nextLine(); // Helps stop a program a little bit for user to see
-            }
+        if (checkKeyWordExists){
+            displayMember(members2);
         } else
+        {
             // Call a method helping us display a list of member in the library
-            displayMember(memberList);
+            displayMember(members);
+         }
+        scanner.nextLine();
     }
 
     // Display member
-    public void displayMember( ArrayList<Member> members){
+    public void displayMember( ArrayList<Member> members2){
         Scanner scanner = new Scanner(System.in);
-        int size = (int) Math.ceil(members.size() / 10.0);
-
+        int size = (int) Math.ceil(members2.size() / 10.0);
+        if (size > 1) {
             Member [][] arr = new Member[size][10];
-
             int count = 0 ; // get the element from arrayList member
 
             // Insert the arraylist member to array
             for (int i = 0 ; i < size; i++){
                 for (int k = 0 ; k < 10 ; k ++){
-                    if (count == members.size() ){
+                    if (count == members2.size() ){
                         break;
                     } else {
-                        arr[i][k] = members.get(count);
+                        arr[i][k] = members2.get(count);
                         count++;
                     }
                 }
@@ -111,7 +112,11 @@ public class MemberList {
                     check = false;
                 }
             }
-
+        } else {
+            for (int i = 0 ; i < members2.size(); i++){
+                System.out.println(members2.get(i).getString());
+            }
+        }
         }
 
     public void addNewMember(){
@@ -144,7 +149,7 @@ public class MemberList {
         System.out.println("Enter the status ( active or expired): ");
         member.setStatus(scanner.nextLine());
 
-        memberList.add(member);
+        members.add(member);
         // Announce the statement
         System.out.println("Successfully added");
         scanner.nextLine(); // Give the user time to see user's input
@@ -152,8 +157,8 @@ public class MemberList {
     }
 
     public boolean checkIDUnique( String id) {
-        for (int i = 0 ; i < memberList.size(); i++){
-            if (id.equalsIgnoreCase(memberList.get(i).getId())){
+        for (int i = 0 ; i < members.size(); i++){
+            if (id.equalsIgnoreCase(members.get(i).getId())){
                 return false;
             }
         }
@@ -166,8 +171,8 @@ public class MemberList {
         boolean found = false;
         System.out.println("Which member do you want to update.\nEnter the member ID please:");
         String id = scanner.nextLine();
-        for (int i = 0 ; i < memberList.size(); i ++){
-            if (id.equalsIgnoreCase(memberList.get(i).getId())){
+        for (int i = 0 ; i < members.size(); i ++){
+            if (id.equalsIgnoreCase(members.get(i).getId())){
                 found = true;
                 // Ask the user what information to be updated
                 while (check){
@@ -176,31 +181,31 @@ public class MemberList {
                     switch (information){
                         case "NAME":
                             System.out.println("What is the new name?");
-                            memberList.get(i).setFullName(scanner.nextLine());
+                            members.get(i).setFullName(scanner.nextLine());
                             break;
                         case "PHONE":
                             System.out.println("What is the new phone?");
-                            memberList.get(i).setPhone(scanner.nextLine());
+                            members.get(i).setPhone(scanner.nextLine());
                             break;
                         case "ADDRESS":
                             System.out.println("What is the new address?");
-                            memberList.get(i).setAddress(scanner.nextLine());
+                            members.get(i).setAddress(scanner.nextLine());
                             break;
                         case "MAIL":
                             System.out.println("What is the new mail?");
-                            memberList.get(i).setMail(scanner.nextLine());
+                            members.get(i).setMail(scanner.nextLine());
                             break;
                         case "STATUS":
                             System.out.println("What is the new status?");
-                            memberList.get(i).setStatus(scanner.nextLine());
+                            members.get(i).setStatus(scanner.nextLine());
                             break;
                         case "DATE":
                             System.out.println("What is the new expired date?\neg: 05-11-2020");
-                            memberList.get(i).setExpiredDate(scanner.nextLine());
+                            members.get(i).setExpiredDate(scanner.nextLine());
                             break;
                         case "LATEFEE":
                             System.out.println("Enter the late fee: ");
-                            memberList.get(i).setLateFee(scanner.nextDouble());
+                            members.get(i).setLateFee(scanner.nextDouble());
                             scanner.nextLine();
                             break;
                         case "0":
@@ -218,14 +223,10 @@ public class MemberList {
         }
     }
 
-    public ArrayList<Member> getMemberList() {
-        return memberList;
+    public ArrayList<Member> getMembers() {
+        return members;
     }
 
-    public void borrowItems (){}
-
-    public void returnItems (){}
-
-    public void displayBorrowedItem (){}
+    
     
 }

@@ -29,11 +29,14 @@ public class Loan {
     public Loan(Item item){
         issuedDate = LocalDate.now(); // This method returns the current date
         this.item = item;
-        returnedDate = LocalDate.now(); // Temporarily set returned Date to now
+        returnedDate = null; // Temporarily set returned Date to now
     }
 
     // Methods:
 
+    public Item getItem() {
+        return item;
+    }
 
     public void setIssuedDate(LocalDate issuedDate) {
         this.issuedDate = issuedDate;
@@ -43,8 +46,7 @@ public class Loan {
         try {
             System.out.println("Enter the returned date following the format dd-MM-yyyy: ");
             String date = scanner.nextLine();
-            LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            this.returnedDate = localDate;
+            this.returnedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         } catch (Exception e){
             System.out.println("Failure to set returned date because the input format is incorrect");
         }
@@ -55,14 +57,25 @@ public class Loan {
     public double calculateFee(){
         double lateFee = 0 ;
         final double FEECHARGED = 0.1;
-        long daysBetween = ChronoUnit.DAYS.between(returnedDate,issuedDate);
-        if (item instanceof Book){ // if it is a book , must return before 15 days
-            lateFee = daysBetween <= 14 ? FEECHARGED * 0 : FEECHARGED * (daysBetween - 14);
-        } else if (item instanceof DVD || item instanceof Journal){ // if it is either a DVD or a Journal, must return before 8 days
-            lateFee = daysBetween <= 7 ? FEECHARGED * 0 : FEECHARGED * (daysBetween - 7);
+        try {
+            long daysBetween = ChronoUnit.DAYS.between(returnedDate,issuedDate);
+            if (item instanceof Book){ // if it is a book , must return before 15 days
+                lateFee = daysBetween <= 14 ? FEECHARGED * 0 : FEECHARGED * (daysBetween - 14);
+            } else if (item instanceof DVD || item instanceof Journal){ // if it is either a DVD or a Journal, must return before 8 days
+                lateFee = daysBetween <= 7 ? FEECHARGED * 0 : FEECHARGED * (daysBetween - 7);
+            }
+        } catch (Exception e){
+            System.out.println("The member has not returned the item yet");
         }
+
         return lateFee;
     }
 
-
+    @Override
+    public String toString() {
+        return "Loan {" +
+                "issuedDate = " + issuedDate +
+                ", returnedDate = " + returnedDate +
+                ", item = " + item.getTitle() +"}\n" ;
+    }
 }

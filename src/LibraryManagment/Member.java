@@ -27,7 +27,7 @@ public class Member {
     private LocalDate expiredDate ;
     private String status;
     private double lateFee;
-    private ArrayList<Loan> loans;
+    private Loan[] loans = new Loan[5];
 
     //Constructors of Member class
     public Member(){}
@@ -45,12 +45,30 @@ public class Member {
     // Methods:
     // Set methods (mutators):
 
+    // This method add loan and set up status and number of copies of item.
     public void addLoans (Loan loan) {
-        if (loans.size() <= 5){
-            loans.add(loan);
-            System.out.println("Successfully added");
+        boolean check = false ;
+
+        // Add the loan to the array loan:
+        for (int i = 0 ; i < 5 ; i ++){
+            if (loans[i] == null){ // If the element is null , add the loan to the array
+                loans[i] = loan;
+                check = true;
+                break; // If already added, stop the loop.
+            }
+        }
+
+        // Set status and update the number of copies of the item
+        if (check){
+            System.out.println("Successfully added loan to this member");
+            loan.getItem().increaseNumberOfCopiesOnLoan(); // Increase the number of item on loan
+            if (loan.getItem().getNumberOfCopiesOnLoan() < loan.getItem().getNumberOfCopies()){
+                loan.getItem().setStatus("Available"); // If the number on loan is less than number of copies , available . Otherwise , on loan
+            } else
+                loan.getItem().setStatus("On Loan");
         } else
-            System.out.println("One member can only have 5 loans at the same time");
+            System.out.println("One member can only have 5 loans at the same time\nFailure to borrow more items");
+
     }
 
     public String getId() {
@@ -106,8 +124,8 @@ public class Member {
 
     public void addLateFee (){
         double lateFee = 0 ;
-        for (int i = 0 ; i < loans.size(); i++){
-            lateFee += loans.get(i).calculateFee();
+        for (int i = 0 ; i < 5 ; i++){
+            lateFee += loans[i].calculateFee();
         }
         this.lateFee += lateFee;
     }
@@ -125,12 +143,29 @@ public class Member {
 
         }
     }
+
+    public Loan[] getLoans() {
+        return loans;
+    }
+
     // This method to display the information to the console
     public String getString(){
+        StringBuilder loanRecord = new StringBuilder();
+        int count = 0 ;
+        for (int i = 0 ; i < 5 ; i ++){
+            if (loans[i] != null){
+                loanRecord.append(loans[i].toString());
+                count++;
+            }
+        }
+        if (count == 0){
+            loanRecord.append("This member has not borrowed any item yet");
+        }
+
         return fullName + "\n" + id + "\n" + phone +
                 "\n" + mail + "\n" + address + "\n"
                 + expiredDate.toString() + "\n" + status +
-                "\nLate Fee: " + lateFee + "\n";
+                "\nLate Fee: " + lateFee + "\n" + loanRecord.toString()+"\n";
     }
     @Override
     public String toString() {

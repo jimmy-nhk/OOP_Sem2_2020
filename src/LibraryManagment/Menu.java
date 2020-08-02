@@ -2,6 +2,7 @@ package LibraryManagment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -52,11 +53,15 @@ public class Menu {
                         memberList.updateMemberInfo();
                         break;
                     case 7:
+                        borrowItems();
+                        break;
                     case 8:
+
                     case 9:
                         saveData();
                         break;
                     case 10:
+                        System.out.println("The program exits. Bye!");
                         quit();
                 }
             } catch (Exception e)
@@ -88,9 +93,138 @@ public class Menu {
                 "Enter a function (1-10):");
     }
 
-    public static void saveData(){}
+    public static void saveData(){
+    }
 
     public static void quit(){
         System.exit(0);
     }
+
+    public static void borrowItems (){
+        System.out.println("Enter the ISBN (Book) or ID (DVD) or ISSN (Journal): ");
+        String input = scanner.nextLine();
+
+        // Check if the item exists in the library:
+        if (checkItemExists(input)){
+            // Add the item to the method
+            int itemTh = returnItemExists(input); /** which is the item in the itemList */
+
+            // Check the item status , if it is not available, display a message
+            if (checkItemStatus(itemList.getItems().get(itemTh))){
+
+                // Check the id of the member:
+                System.out.println("Enter the id of the member: ");
+                String id = scanner.nextLine();
+
+                // Check if the member exists
+                if (checkMemberExists(id)){
+
+                        /** Which is the member in the memberList: */
+                        int memberTh = returnMemberExists(id);
+                         System.out.println(memberTh);
+
+                         /** Add the loan to the member */
+                         memberList.getMembers().get(memberTh).addLoans(new Loan(itemList.getItems().get(itemTh)));
+                } else {
+                    System.out.println("The member does not exists in the system.");
+                }
+            } else {
+                System.out.println("This item is not available yet.");
+            }
+
+        } else {
+            System.out.println("The item cannot be found in the system.");
+        }
+        scanner.nextLine();
+    }
+
+
+
+    // Check the status of the item to make sure it is available:
+    public static boolean checkItemStatus(Item item){
+        if (item.getStatus().equalsIgnoreCase("available")){
+            return true;
+        } else
+            return false;
+    }
+
+    // Return the actual item:
+    public static int returnItemExists ( String input) {
+
+        for (int i = 0; i < itemList.getItems().size(); i++) {
+            // Double access to get the member id to compare with the entered keyword
+            if (itemList.getItems().get(i) instanceof Book) {
+                if (((Book) itemList.getItems().get(i)).getIsbn().equalsIgnoreCase(input)) {
+                    return i;
+                }
+                // Check through out the 3 cases:
+            } else if (itemList.getItems().get(i) instanceof DVD) {
+                // Just in case the input is not the integer so it is needed to handle the error
+                try {
+                    if (((DVD) itemList.getItems().get(i)).getId() == Integer.parseInt(input)) {
+                        return i;
+                    }
+                } catch (Exception e) {
+                }
+            } else if (itemList.getItems().get(i) instanceof Journal) {
+                if (((Journal) itemList.getItems().get(i)).getIssn().equalsIgnoreCase(input)) {
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
+
+//     Check if the item exists
+    public static boolean checkItemExists ( String input) {
+
+        for (int i = 0; i < itemList.getItems().size(); i++) {
+            // Double access to get the member id to compare with the entered keyword
+            if (itemList.getItems().get(i) instanceof Book) {
+                if (((Book) itemList.getItems().get(i)).getIsbn().equalsIgnoreCase(input)) {
+                    return true;
+                }
+            } else if (itemList.getItems().get(i) instanceof DVD) {
+                try {
+                    if (((DVD) itemList.getItems().get(i)).getId() == Integer.parseInt(input)) {
+                        return true;
+                    }
+                } catch (Exception e) {
+                }
+            } else if (itemList.getItems().get(i) instanceof Journal) {
+                if (((Journal) itemList.getItems().get(i)).getIssn().equalsIgnoreCase(input)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Check if the member is already registered in the library
+    public static boolean checkMemberExists( String id){
+        for (int i = 0 ; i < memberList.getMembers().size(); i++){
+            // Double access to get the member id to compare with the entered keyword
+            if (memberList.getMembers().get(i).getId().equalsIgnoreCase(id)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Return which member in the memberList wants to borrow an item:
+    public static int returnMemberExists (String id){
+        for (int i = 0 ; i < memberList.getMembers().size(); i++){
+            // Double access to get the member id to compare with the entered keyword
+            if (memberList.getMembers().get(i).getId().equalsIgnoreCase(id)){
+                return i;
+                }
+        }
+        return 0;
+    }
+
+
+
+    public void returnItems (){}
+
+    public void displayBorrowedItem (){}
 }

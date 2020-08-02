@@ -4,8 +4,8 @@ Deitel, Paul J; Deitel, Harvey M
 Boston : Pearson Education
 2017
 English
-On Loan
-1
+Available
+2
 9780134777566
 Effective Java 
 Bloch, Joshua
@@ -13,7 +13,7 @@ Third edition
 Boston : Addison-Wesley
 2018
 English
-On Loan
+Available
 3
 9780134685991
 Introduction to Java programming : Brief version
@@ -22,8 +22,8 @@ Tenth edition
 Harlow, Essex, England : Pearson Education Limited
 2015
 English
-On Loan
-1
+Available
+2
 9781292070018
 Absolute Java 
 Savitch, Walter J; Mock, Kenrick
@@ -40,8 +40,8 @@ Schmidt, Richard F. (Richard Francis)
 Amsterdam ; Waltham, MA : Morgan Kaufmann, an imprint of Elsevier
 2013
 English
-On Loan
-1
+Available
+2
 9780124077683
 Software architecture in practice
 Bass, Len; Clements, Paul, 1955-; Kazman, Rick
@@ -58,7 +58,7 @@ Fifth edition
 Amsterdam ; Boston : Elsevier/Morgan Kaufmann, Morgan Kaufmann is an imprint of Elsevier
 2014
 English
-On Loan
+Available
 1
 9780124077263
 Media studies: Media history, media and society
@@ -68,7 +68,7 @@ Cape Town: Juta
 2016
 English
 Available
-1
+2
 9780702176920
 Media now : understanding media, culture, and technology
 Straubhaar, Joseph D; LaRose, Robert; Davenport, Lucinda
@@ -85,6 +85,6 @@ Eleventh edition
 Stamford, CT : Cengage Learning
 2015
 English
-On Loan
+Available
 1
 9781133311386

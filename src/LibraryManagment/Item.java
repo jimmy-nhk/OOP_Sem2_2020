@@ -30,7 +30,7 @@ public abstract class Item {
         this.title = title;
         this.publication = publication;
         this.language = language;
-        numberOfCopiesOnLoan = 0;
+        numberOfCopiesOnLoan = 0; // By default , nothing is on loan yet
         this.status = status;
         this.year = Integer.parseInt(year);
         // this.numberOfCopies = Integer.parseInt(numberOfCopies);
@@ -89,6 +89,10 @@ public abstract class Item {
         return numberOfCopiesOnLoan;
     }
 
+    public void increaseNumberOfCopiesOnLoan (){
+        numberOfCopiesOnLoan++;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -106,10 +110,10 @@ public abstract class Item {
         // Check the right form for the status
         boolean check = true;
         while (check) {
-            if (status.toUpperCase().equals("ON LOAN")){
+            if (status.toUpperCase().equalsIgnoreCase("ON LOAN")){
                 this.status = "On Loan";
                 check = false;
-            } else if (status.toUpperCase().equals("AVAILABLE")){
+            } else if (status.toUpperCase().equalsIgnoreCase("AVAILABLE")){
                 this.status = "Available";
                 check = false;
             } else {
