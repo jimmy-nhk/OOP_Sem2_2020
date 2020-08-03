@@ -24,9 +24,10 @@ public abstract class Item {
     private int numberOfCopiesOnLoan;
 
     // Constructors of Collection class
-    public Item(){}
+    public Item() {
+    }
 
-    public Item(String title , String publication, String year , String language,String status,String numberOfCopies) {
+    public Item(String title, String publication, String year, String language, String status, String numberOfCopies) {
         this.title = title;
         this.publication = publication;
         this.language = language;
@@ -36,31 +37,31 @@ public abstract class Item {
         // this.numberOfCopies = Integer.parseInt(numberOfCopies);
         try {
             this.numberOfCopies = Integer.parseInt(numberOfCopies);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Enter the wrong format. This item has not been finished updating yet");
         }
 
     }
 
-    @Override
-    public String toString() {
-        return  title + '\'' +
-                 publication + '\'' +
-                year +
-                 language + '\'' +
-                 status + '\'' +
-                 numberOfCopies +
-                 numberOfCopiesOnLoan;
-    }
-
     // Method to verify the string in the correct format.
     public static boolean verifyInt(String integer) {
-        try{
+        try {
             int a = Integer.parseInt(integer);
             return true;
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return title + '\'' +
+                publication + '\'' +
+                year +
+                language + '\'' +
+                status + '\'' +
+                numberOfCopies +
+                numberOfCopiesOnLoan;
     }
 
     // Get and Set methods:
@@ -69,55 +70,53 @@ public abstract class Item {
         return publication;
     }
 
+    public void setPublication(String publication) {
+        this.publication = publication;
+    }
+
     public int getYear() {
         return year;
+    }
+
+    // Make sure the year in the correct format
+    public void setYear(String year) {
+        //Check the right form of the year
+        Scanner scanner = new Scanner(System.in);
+        if (verifyInt(year)) {
+            this.year = Integer.parseInt(year);
+        } else {
+            System.out.println("Enter again the year in the correct format: ");
+            try {
+                this.year = scanner.nextInt();
+                scanner.nextLine(); // This helps for the next scan
+            } catch (Exception e) {
+                this.year = 0;
+            }
+        }
     }
 
     public String getLanguage() {
         return language;
     }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public String getStatus() {
         return status;
     }
 
-    public int getNumberOfCopies() {
-        return numberOfCopies;
-    }
-
-    public int getNumberOfCopiesOnLoan() {
-        return numberOfCopiesOnLoan;
-    }
-
-    public void increaseNumberOfCopiesOnLoan (){
-        numberOfCopiesOnLoan++;
-    }
-
-    public void decreaseNumberOfCopiesOnLoan(){
-        numberOfCopiesOnLoan--;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setPublication(String publication) {
-        this.publication = publication;
-    }
-
+    // This method sets the status in the right format
     public void setStatus(String status) {
         Scanner scanner = new Scanner(System.in);
         // Check the right form for the status
         boolean check = true;
         while (check) {
-            if (status.toUpperCase().equalsIgnoreCase("ON LOAN")){
+            if (status.toUpperCase().equalsIgnoreCase("ON LOAN")) {
                 this.status = "On Loan";
                 check = false;
-            } else if (status.toUpperCase().equalsIgnoreCase("AVAILABLE")){
+            } else if (status.toUpperCase().equalsIgnoreCase("AVAILABLE")) {
                 this.status = "Available";
                 check = false;
             } else {
@@ -127,44 +126,46 @@ public abstract class Item {
         }
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public int getNumberOfCopies() {
+        return numberOfCopies;
     }
 
     public void setNumberOfCopies(String numberOfCopies) {
         Scanner scanner = new Scanner(System.in);
         // Check the right format of numberOfCopies
-        if (verifyInt(numberOfCopies)){
+        if (verifyInt(numberOfCopies)) {
             this.numberOfCopies = Integer.parseInt(numberOfCopies);
         } else {
             System.out.println("Enter again the number of copies in the correct format: ");
             try {
                 this.numberOfCopies = scanner.nextInt();
                 scanner.nextLine(); // This helps for the next scan
-            } catch (Exception e){
+            } catch (Exception e) {
                 this.numberOfCopies = 1;
             }
         }
     }
 
-    public void setNumberOfCopiesOnLoan(int numberOfCopiesOnLoan) {
-        this.numberOfCopiesOnLoan = numberOfCopiesOnLoan;
+    public int getNumberOfCopiesOnLoan() {
+        return numberOfCopiesOnLoan;
     }
 
-    public void setYear(String year) {
-        //Check the right form of the year
-        Scanner scanner = new Scanner(System.in);
-        if (verifyInt(year)){
-            this.year = Integer.parseInt(year);
-        } else {
-            System.out.println("Enter again the year in the correct format: ");
-            try {
-                this.year = scanner.nextInt();
-                scanner.nextLine(); // This helps for the next scan
-            } catch (Exception e){
-                this.year = 0;
-            }
-        }
+    // This method helps when borrowing the item
+    public void increaseNumberOfCopiesOnLoan() {
+        numberOfCopiesOnLoan++;
+    }
+
+    // This method reduce the number of compies on loan
+    public void decreaseNumberOfCopiesOnLoan() {
+        numberOfCopiesOnLoan--;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public abstract String getString();

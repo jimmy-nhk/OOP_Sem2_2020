@@ -12,53 +12,53 @@
 
 package LibraryManagment;
 
-import java.util.Scanner;
-
-public class Book extends Item{
+public class Book extends Item {
     // Data fields of Book class
     private String author;
     private String edition;
     private String isbn;
 
     //Constructors of Book class
-    public Book(){}
-    public Book(String title , String author, String edition , String publication, String year, String language,String status,String copy ,  String isbn){
-        super(title ,  publication,  year ,  language, status, copy);
+    public Book() {
+    }
+
+    public Book(String title, String author, String edition, String publication, String year, String language, String status, String copy, String isbn) {
+        super(title, publication, year, language, status, copy);
         this.author = author;
         this.edition = edition;
         this.isbn = isbn;
     }
 
+    // The method to check the validation of ISBN
+    public static boolean verifyISBN(String isbn) {
+        return verifyInt(isbn) && isbn.length() == 10;
+    }
+
     @Override
     public String toString() {
-        return  super.toString()+ author + '\'' +
+        return super.toString() + author + '\'' +
                 edition + '\'' +
-                 isbn + '\'';
+                isbn + '\'';
     }
 
     @Override
     public String getString() {
         return "Book:\n" + super.getTitle() + "\n"
-                + author + "\n" + edition+"\n" + super.getPublication() +"\n"
-                + super.getYear() +"\n"+super.getLanguage()+"\n"+
-                super.getStatus()+"\nNumber Of Copies: "+getNumberOfCopies()+
-                "\nNumber of Copies on Loan: " + super.getNumberOfCopiesOnLoan() +"\n"
-                + isbn +"\n";
-    }
-
-
-
-
-    // The method to check the validation of ISBN
-    public static boolean verifyISBN(String isbn){
-        return verifyInt(isbn) && isbn.length() == 10;
+                + author + "\n" + edition + "\n" + super.getPublication() + "\n"
+                + super.getYear() + "\n" + super.getLanguage() + "\n" +
+                super.getStatus() + "\nNumber Of Copies: " + getNumberOfCopies() +
+                "\nNumber of Copies on Loan: " + super.getNumberOfCopiesOnLoan() + "\n"
+                + isbn + "\n";
     }
 
     // Methods:
 
-
     public String getIsbn() {
         return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public void setAuthor(String author) {
@@ -67,10 +67,6 @@ public class Book extends Item{
 
     public void setEdition(String edition) {
         this.edition = edition;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
     }
 }
 

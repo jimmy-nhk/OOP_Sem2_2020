@@ -14,16 +14,15 @@ package LibraryManagment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Menu {
+    public static final File BORROWINGFILE = new File("src/Borrowing Record.txt");
     // Attributes:
     public static ItemList itemList = new ItemList();
     public static MemberList memberList = new MemberList();
     public static Scanner scanner = new Scanner(System.in);
-
-
 
 
     // Methods:
@@ -32,20 +31,20 @@ public class Menu {
         // Start the program by loading all the files in:
         start();
 
-        while (true){
+        while (true) {
             // Display the menu first for the user
             displayMenu();
 
             // If it is in the wrong format, please kindly re-enter the input
             try {
                 int input = Integer.parseInt(scanner.nextLine());
-                while (input < 1 || input > 10 ){
+                while (input < 1 || input > 10) {
                     System.out.println("The input should be the integer from 1 to 10.\nPlease kindly re-input the function:");
                     input = Integer.parseInt(scanner.nextLine());
                 }
 
                 // Choose the function:
-                switch (input){
+                switch (input) {
                     case 1:
                         itemList.searchItem();
                         break;
@@ -77,19 +76,55 @@ public class Menu {
                         System.out.println("The program exits. Bye!");
                         quit();
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("The input should be an integer from 1 to 10.");
             }
         }
     }
-    public static void start(){
-        itemList.start();
-        memberList.start();
+
+    public static void start() {
+        itemList.start(); // Load item from item files
+        memberList.start(); // Load members from member file
+
+        // Load the borrowing records with its member:
+        try {
+            Scanner sc = new Scanner(BORROWINGFILE);
+            while (sc.hasNext()) {
+                String id = sc.nextLine();
+                String input = sc.nextLine();
+                String date = sc.nextLine();
+                if (checkItemExists(input)) {
+                    // Add the item to the method
+                    int itemTh = returnItemExists(input); /** which is the item in the itemList */
+
+                    // Check the item status , if it is not available, display a message
+                    if (checkItemStatus(itemList.getItems().get(itemTh))) {
+                        // Check if the member exists
+                        if (checkMemberValidation(id)) {
+
+                            /** Which is the member in the memberList: */
+                            int memberTh = returnMemberExists(id);
+
+                            /** Add the loan to the member */
+                            memberList.getMembers().get(memberTh).loadLoans(new Loan(itemList.getItems().get(itemTh)));
+                        } else {
+                            System.out.println("The member does not exists in the system or might be expired.");
+                        }
+                    } else {
+                        System.out.println("This item is not available yet.");
+                    }
+                } else {
+                    System.out.println("The item cannot be found in the system.");
+                }
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot find the file");
+        }
     }
 
     // Display the menu:
-    public static void displayMenu(){
+    public static void displayMenu() {
         System.out.println("Welcome to QuickLib!!!\n" +
                 "********************************\n" +
                 "1. Search items by keywords\n" +
@@ -106,39 +141,36 @@ public class Menu {
                 "Enter a function (1-10):");
     }
 
-    public static void saveData(){
-    }
-
-    public static void quit(){
+    public static void quit() {
         System.exit(0);
     }
 
-    public static void borrowItems (){
+    public static void borrowItems() {
         System.out.println("Enter the ISBN (Book) or ID (DVD) or ISSN (Journal): ");
         String input = scanner.nextLine();
 
         // Check if the item exists in the library:
-        if (checkItemExists(input)){
+        if (checkItemExists(input)) {
             // Add the item to the method
             int itemTh = returnItemExists(input); /** which is the item in the itemList */
 
             // Check the item status , if it is not available, display a message
-            if (checkItemStatus(itemList.getItems().get(itemTh))){
+            if (checkItemStatus(itemList.getItems().get(itemTh))) {
 
                 // Check the id of the member:
                 System.out.println("Enter the id of the member: ");
                 String id = scanner.nextLine();
 
                 // Check if the member exists
-                if (checkMemberValidation(id)){
+                if (checkMemberValidation(id)) {
 
-                        /** Which is the member in the memberList: */
-                        int memberTh = returnMemberExists(id);
+                    /** Which is the member in the memberList: */
+                    int memberTh = returnMemberExists(id);
 
-                         /** Add the loan to the member */
-                         memberList.getMembers().get(memberTh).addLoans(new Loan(itemList.getItems().get(itemTh)));
+                    /** Add the loan to the member */
+                    memberList.getMembers().get(memberTh).addLoans(new Loan(itemList.getItems().get(itemTh)));
                 } else {
-                    System.out.println("The member does not exists in the system.");
+                    System.out.println("The member does not exists in the system or might be expired.");
                 }
             } else {
                 System.out.println("This item is not available yet.");
@@ -150,18 +182,13 @@ public class Menu {
         scanner.nextLine();
     }
 
-
-
     // Check the status of the item to make sure it is available:
-    public static boolean checkItemStatus(Item item){
-        if (item.getStatus().equalsIgnoreCase("available")){
-            return true;
-        } else
-            return false;
+    public static boolean checkItemStatus(Item item) {
+        return item.getStatus().equalsIgnoreCase("available");
     }
 
     // Return the actual item:
-    public static int returnItemExists ( String input) {
+    public static int returnItemExists(String input) {
 
         for (int i = 0; i < itemList.getItems().size(); i++) {
             // Double access to get the member id to compare with the entered keyword
@@ -187,8 +214,8 @@ public class Menu {
         return 0;
     }
 
-//     Check if the item exists
-    public static boolean checkItemExists ( String input) {
+    //     Check if the item exists
+    public static boolean checkItemExists(String input) {
 
         // Run the loop to check if the item exists
         for (int i = 0; i < itemList.getItems().size(); i++) {
@@ -214,13 +241,13 @@ public class Menu {
     }
 
     // Check if the member is already registered in the library and still active ?
-    public static boolean checkMemberValidation( String id){
+    public static boolean checkMemberValidation(String id) {
         Member member = new Member();
-        for (int i = 0 ; i < memberList.getMembers().size(); i++){
+        for (int i = 0; i < memberList.getMembers().size(); i++) {
             // Double access to get the member id to compare with the entered keyword
-            if (memberList.getMembers().get(i).getId().equalsIgnoreCase(id)){
+            if (memberList.getMembers().get(i).getId().equalsIgnoreCase(id)) {
                 member = memberList.getMembers().get(i);
-                if (member.getStatus().equalsIgnoreCase("Active")){
+                if (member.getStatus().equalsIgnoreCase("Active")) {
                     return true;
                 }
             }
@@ -229,37 +256,36 @@ public class Menu {
     }
 
     // Return which member in the memberList wants to borrow an item:
-    public static int returnMemberExists (String id){
-        for (int i = 0 ; i < memberList.getMembers().size(); i++){
+    public static int returnMemberExists(String id) {
+        for (int i = 0; i < memberList.getMembers().size(); i++) {
             // Double access to get the member id to compare with the entered keyword
-            if (memberList.getMembers().get(i).getId().equalsIgnoreCase(id)){
+            if (memberList.getMembers().get(i).getId().equalsIgnoreCase(id)) {
                 return i;
-                }
+            }
         }
         return 0;
     }
 
 
-
-    public static void returnItems (){
+    public static void returnItems() {
         System.out.println("Enter the ID member: ");
         String id = scanner.nextLine();
 
         // Check if member exists
-        if (checkMemberValidation(id)){
+        if (checkMemberValidation(id)) {
 
             int memberTh = returnMemberExists(id);
             System.out.println("Enter the ISBN (Book) or ID (DVD) or ISSN (Journal): ");
             String input = scanner.nextLine();
 
             // Check if item exists
-            if (checkItemExists(input)){
+            if (checkItemExists(input)) {
                 int itemTh = returnItemExists(input);
 
                 // Check the loan of this member
                 int loanTh = memberList.getMembers().get(memberTh).findLoan(itemList.getItems().get(itemTh));
                 // This variable shows which loan the member wants to return
-                if ( loanTh >= 0){
+                if (loanTh >= 0) {
 
                     // Enter the return date:
                     System.out.println("Enter the returned date:\neg: 05-11-2020");
@@ -271,15 +297,16 @@ public class Menu {
                     double fee = memberList.getMembers().get(memberTh).getLoans()[loanTh].calculateFee();
                     memberList.getMembers().get(memberTh).setLateFee(fee);
 
-                    System.out.println(memberList.getMembers().get(memberTh).getLateFee());
                     // Update the number of copies on loan
                     itemList.getItems().get(itemTh).decreaseNumberOfCopiesOnLoan();
 
                     // Update status of the item:
                     itemList.getItems().get(itemTh).setStatus("Available");
 
-                    memberList.getMembers().get(memberTh).getLoans()[loanTh] = null; // Remove the loan from the memberList
+                    // Remove the loan from the memberList
+                    memberList.getMembers().get(memberTh).getLoans()[loanTh] = null;
 
+                    // Announce the statement
                     System.out.println("Successfully return the item");
                 } else {
                     System.out.println("This member has not borrowed this item before.");
@@ -290,5 +317,32 @@ public class Menu {
         }
     }
 
-    public void displayBorrowedItem (){}
+    // Last method to saveData to file:
+    public static void saveData() {
+        try {
+            PrintWriter printWriter = new PrintWriter("src/Output.txt");
+
+            // Save Item to the file first
+            printWriter.println("----ITEM----");
+            for (int i = 0; i < itemList.getItems().size(); i++) {
+                printWriter.println(itemList.getItems().get(i).getString());
+            }
+
+            printWriter.println("----MEMBER----");
+            // Save member to the file:
+            for (int i = 0; i < memberList.getMembers().size(); i++) {
+                printWriter.println(memberList.getMembers().get(i).getString());
+            }
+            printWriter.close(); // Close the file to save the data
+
+            System.out.println("Successfully save the data.");
+            System.out.println("Press enter to quit this function.");
+
+            scanner.nextLine();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot find the file");
+        }
+    }
+
 }
