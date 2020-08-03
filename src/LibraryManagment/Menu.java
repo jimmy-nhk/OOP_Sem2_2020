@@ -74,6 +74,7 @@ public class Menu {
                         break;
                     case 10:
                         System.out.println("The program exits. Bye!");
+                        saveData(); // Save the data.
                         quit();
                 }
             } catch (Exception e) {
@@ -336,9 +337,7 @@ public class Menu {
             printWriter.close(); // Close the file to save the data
 
             System.out.println("Successfully save the data.");
-            System.out.println("Press enter to quit this function.");
 
-            scanner.nextLine();
 
         } catch (FileNotFoundException e) {
             System.out.println("Cannot find the file");

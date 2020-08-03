@@ -65,8 +65,6 @@ public class MemberList {
             // Call a method helping us display a list of member in the library
             displayMember(members);
         }
-        System.out.println("Press enter to go to the menu");
-        scanner.nextLine();
     }
 
     // Display member
@@ -125,8 +123,9 @@ public class MemberList {
             }
         } else {
             for (Member member : members2) {
-                System.out.print(member.getString());
+                System.out.println(member.getString());
             }
+            scanner.nextLine();
         }
     }
 

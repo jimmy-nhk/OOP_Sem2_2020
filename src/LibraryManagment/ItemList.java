@@ -104,10 +104,10 @@ public class ItemList {
         // Call a method helping us display a list of member in the library
         if (checkKeyWordExists) {
             displayItem(items2);
-        } else
+        } else{
             displayItem(items);
+        }
 
-        scanner.nextLine();
     }
 
     public void displayItem(ArrayList<Item> items2) {
@@ -162,8 +162,9 @@ public class ItemList {
             }
         } else {
             for (Item item : items2) {
-                System.out.print(item.getString());
+                System.out.println(item.getString());
             }
+            scanner.nextLine();
         }
 
     }
@@ -246,7 +247,6 @@ public class ItemList {
                                 break;
                             case "0":
                                 check = false;
-                                scanner.nextLine();
                                 break;
                             default:
                                 System.out.println("No data field like that in this Journal");
@@ -301,7 +301,6 @@ public class ItemList {
                                 break;
                             case "0":
                                 check = false;
-                                scanner.nextLine();
                                 break;
                             default:
                                 System.out.println("No data field like that in this DVD");

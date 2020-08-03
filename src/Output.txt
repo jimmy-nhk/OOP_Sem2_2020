@@ -7,8 +7,8 @@ Boston : Pearson Education
 2017
 English
 Available
-Number Of Copies: 3
-Number of Copies on Loan: 0
+Number Of Copies: 2
+Number of Copies on Loan: 1
 9780134777566
 
 Book:
@@ -219,6 +219,18 @@ Available
 Number Of Copies: 1
 Number of Copies on Loan: 0
 
+Book:
+Java new ne
+123
+12
+123
+2001
+13
+Available
+Number Of Copies: 3
+Number of Copies on Loan: 0
+1234567890
+
 ----MEMBER----
 Vo ho gia huy
 s3761772
@@ -330,10 +342,11 @@ S3802040
 0931897972
 s3802040@rmit.edu.vn
 12 Dinh Tien Hoang street, Ward 5, Binh Thanh Dis, hcmc
-2020-11-05
+2021-07-12
 Active
-Late Fee: 6.9
-This member has not borrowed any item yet
+Late Fee: 9.0
+Loan {issuedDate = 2020-08-03, returnedDate = null, item = Java 9 for programmers}
+
 
 Pham Hoang Nhu Phuc
 s3817738
@@ -345,12 +358,12 @@ Active
 Late Fee: 0.0
 This member has not borrowed any item yet
 
-Khang ne
-12345
-12345
+hello
+ss3802040
+09312312
 
-dasd
-2020-11-05
+ssd@rmit.edu.vn
+2020-11-09
 active
 Late Fee: 0.0
 This member has not borrowed any item yet
