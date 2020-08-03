@@ -43,8 +43,6 @@ public class Member {
         setExpiredDate(date);
     }
 
-    // Methods:
-    // Set methods (mutators):
 
     // This method add loan and set up status and number of copies of item.
     public void addLoans(Loan loan) {
@@ -94,6 +92,8 @@ public class Member {
         }
     }
 
+    // Methods:
+    // Set methods (mutators):
     public String getId() {
         return id;
     }
