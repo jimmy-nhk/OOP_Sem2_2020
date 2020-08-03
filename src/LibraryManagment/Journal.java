@@ -46,6 +46,7 @@ public class Journal extends Item {
                 + issn + "\n";
     }
 
+    // Methods get and set
     public String getIssn() {
         return issn;
     }
