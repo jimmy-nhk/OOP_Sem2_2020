@@ -159,14 +159,11 @@ public class Member {
         }
     }
 
-    public double getLateFee() {
-        return lateFee;
-    }
-
     public void setLateFee(double lateFee) {
         this.lateFee += lateFee;
     }
 
+    // Return the location of the found item
     public int findLoan(Item item) {
         for (int i = 0; i < loans.length; i++) {
             if (item.equals(loans[i].getItem())) {
