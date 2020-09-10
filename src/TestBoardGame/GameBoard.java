@@ -29,16 +29,23 @@ public class GameBoard implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        ArrayList <ImageView> deck = new ArrayList<>();
+
+        300 60
+        for (int i = 1 ; i < 53 ; i ++) {
+            deck.add(new Image())
+        }
+
+
+
         ArrayList<ImageView> imageView = new ArrayList<>();
         // Player on the left
-        Reflection reflection = new Reflection();
-        reflection.setFraction(0.2); // The rate of reflection:
-        reflection.setTopOffset(5); // The distance between the original image vs the reflection
+
         for (int i = 0 ; i < 20 ; i ++) {
             imageView.add(setSizeImage());
-            imageView.get(i).setTranslateX(100 + i * 12);
+            imageView.get(i).setTranslateX(100 + i * 10);
             imageView.get(i).setTranslateY(170 + i * 12);
-            imageView.get(i).setEffect( reflection);
             imageView.get(i).setSmooth(true);
             pane.getChildren().add(imageView.get(i));
         }
@@ -49,6 +56,7 @@ public class GameBoard implements Initializable {
             AtomicBoolean check = new AtomicBoolean(false);
             RotateTransition rotator = new RotateTransition(Duration.millis(500),imageView.get(i));
             int finalI = i ;
+
             imageView.get(i).setOnMouseClicked(event -> {
                 translateTransition.setToX(700 );
                 translateTransition.setToY(400 );
@@ -68,6 +76,7 @@ public class GameBoard implements Initializable {
                 imageView.get(finalI).setImage(new Image("cards/"+ finalI  +".png"));
 
                 imageView.get(finalI).toFront();
+
 
             });
         }
@@ -94,6 +103,7 @@ public class GameBoard implements Initializable {
             pane.getChildren().add(imageView1);
         }
 
+
         // Upper player
         for (int i = 0 ; i < 20 ; i ++) {
             ImageView imageView1 = setSizeImage();
@@ -117,6 +127,7 @@ public class GameBoard implements Initializable {
 
 
         // Main player
+
         for (int i = 0 ; i < 20 ; i ++) {
             ImageView imageView1 = setSizeImage();
             imageView1.setFitWidth(120);
@@ -138,7 +149,6 @@ public class GameBoard implements Initializable {
             });
             pane.getChildren().add(imageView1);
         }
-
     }
 
     public ImageView setSizeImage (){
