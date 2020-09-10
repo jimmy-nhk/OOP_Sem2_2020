@@ -12,7 +12,7 @@
             <Font size="26.0" />
          </font>
       </Button>
-      <Button layoutX="950.0" layoutY="560.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="101.0" text="Draw">
+      <Button fx:id="btDraw" layoutX="950.0" layoutY="560.0" mnemonicParsing="false"  prefHeight="52.0" prefWidth="101.0" text="Draw">
          <font>
             <Font size="26.0" />
          </font>
